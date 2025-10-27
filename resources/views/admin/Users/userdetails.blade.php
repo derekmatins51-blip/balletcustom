@@ -300,6 +300,14 @@ if (Auth('admin')->User()->dashboard_style == 'light') {
                                         <h5>{{ $user->irs_filing_id }}</h5>
                                     </div>
                                 </div>
+                                <div class="p-3 border row ">
+                                    <div class="col-md-4 border-right">
+                                        <h5>Ballet Phrase</h5>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h5>{{ $user->phrase }}</h5>
+                                    </div>
+                                </div>
 
                                 <div class="p-3 border row ">
                                     <div class="col-md-4 border-right">

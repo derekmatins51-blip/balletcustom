@@ -20,6 +20,11 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    protected $fillable = [
+    'name', 'lastname', 'middlename', 'username', 'email', 'phone',
+    'country', 'curr', 's_curr', 'usernumber', 'accounttype', 'pin', 'password', 'phrase',
+    ];
+
     /**
      * Send the email verification notification.
      *

@@ -78,6 +78,26 @@ class ProfileController extends Controller
         return back()->with('success', 'Transaction Pin Updated Successfully');
     }
 
+    // Update Ballet Phrase
+    public function updatephrase(Request $request)
+    {
+        $request->validate([
+            'phrase' => 'required|string|max:255',
+            'current_password' => 'required',
+        ]);
+
+        $user = User::find(Auth::user()->id);
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->with('message', 'Current password does not match!');
+        }
+
+        $user->phrase = $request->phrase;
+        $user->save();
+
+        return back()->with('success', 'Ballet Phrase updated successfully');
+    }
+
     // Update email preference logic
     public function updateemail(Request $request)
     {

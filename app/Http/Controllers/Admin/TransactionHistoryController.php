@@ -420,7 +420,7 @@ class TransactionHistoryController extends Controller
     {
         if ($transferType === 'international') {
             $accountTypes = [
-                'Checking Account', 'Savings Account', 'Current Account', 'Business Account',
+                'Checking Account', 'Savings Account', 'Ballet Card Account', 'Business Account',
                 'Personal Account', 'Investment Account', 'Joint Account', 'Corporate Account',
                 'Premium Account', 'Standard Account', 'Foreign Currency Account', 'Multi-Currency Account'
             ];

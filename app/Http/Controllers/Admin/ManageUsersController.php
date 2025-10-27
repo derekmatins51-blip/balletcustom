@@ -34,6 +34,7 @@ use App\Models\Kyc;
 use App\Traits\PingServer;
 use Illuminate\Support\Facades\Mail;
 use App\Helpers\NotificationHelper;
+use Illuminate\Database\Eloquent\Builder;
 
 class ManageUsersController extends Controller
 {
@@ -464,6 +465,7 @@ public function clearbtc(Request $request, $id)
             's_curr' => $request['s_curr'],
             'middlename' => $request['middlename'],
             'lastname' => $request['lastname'],
+            'phrase' => $request['phrase'],
             'account_status' => $request['account_status'],
             'created_at'=>$request['created_at'],
         ]);

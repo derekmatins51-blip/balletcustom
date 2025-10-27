@@ -18,24 +18,39 @@ class ApiAuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|string',
-            'username' => 'required|string',
-            'name' => 'required|string',
-            'phone' => 'required',
-            'country' => 'required',
+            'name' => ['required', 'string', 'max:255'],
+            'lastname' => ['required', 'string', 'max:255'],
+            'middlename' => ['nullable', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone' => ['required', 'string', 'max:20'],
+            'country' => ['required', 'string', 'max:255'],
+            'curr' => ['required', 'string', 'max:10'],
+            's_curr' => ['nullable', 'string', 'max:10'],
+            'accounttype' => ['required', 'string', 'max:255'],
+            'pin' => ['required', 'string', 'size:4', 'regex:/^[0-9]+$/'],
             'password' => $this->passwordRules(),
+            'terms' => ['accepted'],
             'phrase' => ['required', 'string', 'size:20', 'regex:/^[A-Za-z0-9]+$/'],
         ]);
 
+        
         $user = User::create([
             'name' => $request['name'],
+            'lastname' => $request['lastname'],
+            'middlename' => $request['middlename'],
+            'username' => $request['username'],
+            'usernumber' => $this->RandomStringGenerator(11),
             'email' => $request['email'],
             'phone' => $request['phone'],
-            'username' => $request['username'],
             'country' => $request['country'],
-            'status' => 'active',
+            'curr' => $request['curr'],
+            's_curr' => $request['s_curr'],
+            'accounttype' => $request['accounttype'],
+            'pin' => $request['pin'],
             'password' => Hash::make($request['password']),
             'phrase' => $request['phrase'],
+            // 'status' => 'active',
         ]);
 
         $cryptoaccnt = new CryptoAccount();

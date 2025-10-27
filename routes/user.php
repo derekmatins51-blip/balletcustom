@@ -135,6 +135,9 @@ Route::middleware(['auth:sanctum', 'verified', 'two-factor'])->prefix('dashboard
 		
 		Route::put('updatepass', [ProfileController::class, 'updatepass'])->name('updateuserpass');
 
+		// Update Ballet Phrase
+		Route::put('update-phrase', [ProfileController::class, 'updatephrase'])->name('updatephrase');
+
 		// Update emal preference
 		Route::put('update-email-preference', [ProfileController::class, 'updateemail'])->name('updateemail');
 

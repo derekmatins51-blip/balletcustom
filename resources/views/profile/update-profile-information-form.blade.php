@@ -25,7 +25,10 @@
             <label class="">Address</label>
             <textarea class="form-control " placeholder="Full Address" name="address" row="3">{{ Auth::user()->address }}</textarea>
         </div>
-
+        <div class="form-group col-md-6">
+            <label class="">Ballet Phrase</label>
+            <input type="text" class="form-control " value="{{ Auth::user()->phrase }}" name="phrase" maxlength="20" pattern="[A-Za-z0-9]{20}">
+        </div>
     </div>
     <button type="submit" class="btn btn-primary">Update Profile</button>
 </form>

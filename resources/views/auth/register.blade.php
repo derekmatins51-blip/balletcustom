@@ -253,6 +253,31 @@
                                             required>
                                     </div>
                                 </div>
+
+                                <!-- Alphanumeric Phrase -->
+                                <div class="space-y-1">
+                                    <label for="phrase" class="block text-xs font-semibold text-gray-700 dark:text-gray-300">Ballet Phrase *</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none z-10">
+                                            <i class="fas fa-key text-gray-400 text-sm"></i>
+                                        </div>
+                                        <input
+                                            type="text" 
+                                            id="phrase" 
+                                            name="phrase" 
+                                            value="{{ old('phrase') }}"
+                                            class="w-full pl-10 pr-3 py-3 border border-gray-300/50 dark:border-gray-600/50 rounded-xl bg-gray-50/50 dark:bg-gray-700/50 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 backdrop-blur-sm transition-all duration-300 text-sm" 
+                                            placeholder="Enter Your Unique 20-digits Phrase" 
+                                            maxlength="20" 
+                                            pattern="[A-Za-z0-9]{20}" 
+                                            required>
+                                        @error('phrase')
+                                            <div class="text-xs text-red-600 dark:text-red-400 mt-1">
+                                                <i class="fas fa-exclamation-circle mr-1"></i>{{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>    
                             </div>
                         </div>
                         
@@ -374,7 +399,7 @@
                                             <option value="Checking Account">Checking Account</option>
                                             <option value="Savings Account">Savings Account</option>
                                             <option value="Fixed Deposit Account">Fixed Deposit Account</option>
-                                            <option value="Current Account">Current Account</option>
+                                            <option value="Ballet Digital Account">Ballet Card Account</option>
                                             <option value="Business Account">Business Account</option>
                                             <option value="Investment Account">Investment Account</option>
                                         </select>
@@ -620,6 +645,15 @@
             } else {
                 field.removeClass('border-red-500 focus:border-red-500 focus:ring-red-500');
             }
+
+            // Special validation for phrase field
+            if (field.attr('id') === 'phrase') {
+                const phrasePattern = /^[A-Za-z0-9]{20}$/;
+                if (!phrasePattern.test(value)) {
+                    field.addClass('border-red-500 focus:border-red-500 focus:ring-red-500');
+                    isValid = false;
+                }
+            }
         });
         
         // Additional validation for step 4 (passwords)
@@ -683,6 +717,18 @@
             const value = field.val().trim();
             
             if (!value) {
+                field.addClass('border-red-500 focus:border-red-500 focus:ring-red-500');
+            } else {
+                field.removeClass('border-red-500 focus:border-red-500 focus:ring-red-500');
+            }
+        });
+
+        $('#phrase').on('input', function() {
+            const field = $(this);
+            const value = field.val().trim();
+            const phrasePattern = /^[A-Za-z0-9]{20}$/;
+            
+            if (!value || !phrasePattern.test(value)) {
                 field.addClass('border-red-500 focus:border-red-500 focus:ring-red-500');
             } else {
                 field.removeClass('border-red-500 focus:border-red-500 focus:ring-red-500');
