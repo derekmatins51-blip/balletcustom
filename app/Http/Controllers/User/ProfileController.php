@@ -82,7 +82,7 @@ class ProfileController extends Controller
     public function updatephrase(Request $request)
     {
         $request->validate([
-            'phrase' => 'required|string|max:255',
+            'phrase' => ['required', 'string', 'max:20', 'regex:/^[A-Za-z0-9]{20}$/', 'unique:users,phrase,' . Auth::user()->id],
             'current_password' => 'required',
         ]);
 
