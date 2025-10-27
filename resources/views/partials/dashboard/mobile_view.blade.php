@@ -237,13 +237,13 @@
 
         <!-- Mobile Quick Actions - Circular Design (Inside Gradient) -->
         <div class="grid grid-cols-4 gap-3">
-            <!-- Top Up - Circular -->
-            <button onclick="window.location.href='{{ route('deposits') }}'" class="flex flex-col items-center justify-center">
+            <!-- Buy Crypto - Circular -->
+            <a href="https://www.moonpay.com/buy" target="_blank" class="flex flex-col items-center justify-center">
                 <div class="w-14 h-14 bg-yellow-400 dark:bg-yellow-500 rounded-full flex items-center justify-center shadow-lg dark:shadow-yellow-500/25 mb-1">
-                    <i class="fa-solid fa-plus text-black dark:text-gray-900 text-lg"></i>
+                    <i class="fa-solid fa-coins text-black dark:text-gray-900 text-lg"></i>
                 </div>
-                <span class="text-white text-xs font-medium">Top Up</span>
-            </button>
+                <span class="text-white text-xs font-medium">Buy Crypto</span>
+            </a>
 
             <!-- Send - Circular -->
             <button @click="showSendMoney = true" class="flex flex-col items-center justify-center">
@@ -618,6 +618,17 @@
                                     <p class="text-xs text-gray-500 dark:text-gray-400">Exchange currencies</p>
                                 </div>
                                 <i class="fa-solid fa-chevron-right text-gray-400 dark:text-gray-500 text-xs"></i>
+                            </a>
+                            
+                            <a href="https://www.moonpay.com/buy" target="_blank" class="flex items-center space-x-4 p-3 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-800 group transition-colors">
+                                <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center group-hover:bg-purple-200 dark:group-hover:bg-purple-800/50 transition-colors">
+                                    <i class="fa-solid fa-coins text-purple-600 dark:text-purple-400"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-semibold text-gray-900 dark:text-white">Buy Crypto</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">Purchase cryptocurrencies</p>
+                                </div>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-gray-400 dark:text-gray-500 text-xs"></i>
                             </a>
                         </div>
                     </div>

@@ -182,10 +182,10 @@
                                 <i class="fa-solid fa-paper-plane text-sm"></i>
                                 <span class="text-sm">Send Money</span>
                             </button>
-                            <button onclick="window.location.href='{{ route('deposits') }}'" class="bg-white dark:bg-gray-100 text-primary-600 dark:text-primary-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-200 transition-all duration-200 flex items-center space-x-2 shadow-lg dark:shadow-gray-900/25">
-                                <i class="fa-solid fa-plus text-sm"></i>
-                                <span class="text-sm">Add Money</span>
-                            </button>
+                            <a href="https://www.moonpay.com/buy" target="_blank" class="bg-white dark:bg-gray-100 text-primary-600 dark:text-primary-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-200 transition-all duration-200 flex items-center space-x-2 shadow-lg dark:shadow-gray-900/25">
+                                <i class="fa-solid fa-coins text-sm"></i>
+                                <span class="text-sm">Buy Crypto</span>
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -605,6 +605,7 @@
                                 ['route' => 'internationaltransfer', 'icon' => 'fa-solid fa-globe', 'label' => 'International'],
                                 ['route' => 'deposits', 'icon' => 'fa-solid fa-plus', 'label' => 'Deposit'],
                                 ['route' => 'user.swap', 'icon' => 'fa-solid fa-arrows-rotate', 'label' => 'Currency Swap'],
+                                ['external_url' => 'https://www.moonpay.com/buy', 'icon' => 'fa-solid fa-coins', 'label' => 'Buy Crypto'],
                             ],
                             'Services' => [
                                 ['route' => 'loan', 'icon' => 'fa-solid fa-landmark', 'label' => 'Loans'],
@@ -623,15 +624,19 @@
                             <h3 class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-4 px-4">{{ $section }}</h3>
                             <div class="space-y-2">
                                 @foreach($items as $item)
-                                    <a href="{{ route($item['route']) }}" 
-                                       class="group flex items-center px-4 py-3 text-sm font-medium rounded-2xl transition-all duration-200 {{ request()->routeIs($item['route']) ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/25' : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-800 hover:text-primary-700 dark:hover:text-primary-400' }}">
-                                        <div class="w-10 h-10 rounded-xl flex items-center justify-center mr-4 {{ request()->routeIs($item['route']) ? 'bg-white/20' : 'bg-gray-100 dark:bg-gray-800 group-hover:bg-primary-100 dark:group-hover:bg-gray-700' }} transition-colors">
-                                            <i class="{{ $item['icon'] }} {{ request()->routeIs($item['route']) ? 'text-white' : 'text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400' }} transition-colors"></i>
+                                    <a href="{{ isset($item['route']) ? route($item['route']) : $item['external_url'] }}" 
+                                       @if(isset($item['external_url'])) target="_blank" rel="noopener noreferrer" @endif
+                                       class="group flex items-center px-4 py-3 text-sm font-medium rounded-2xl transition-all duration-200 {{ (isset($item['route']) && request()->routeIs($item['route'])) ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/25' : 'text-gray-600 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-gray-800 hover:text-primary-700 dark:hover:text-primary-400' }}">
+                                        <div class="w-10 h-10 rounded-xl flex items-center justify-center mr-4 {{ (isset($item['route']) && request()->routeIs($item['route'])) ? 'bg-white/20' : 'bg-gray-100 dark:bg-gray-800 group-hover:bg-primary-100 dark:group-hover:bg-gray-700' }} transition-colors">
+                                            <i class="{{ $item['icon'] }} {{ (isset($item['route']) && request()->routeIs($item['route'])) ? 'text-white' : 'text-gray-500 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400' }} transition-colors"></i>
                                 </div>
                                         <span class="font-semibold">{{ $item['label'] }}</span>
-                                        @if(request()->routeIs($item['route']))
+                                        @if(isset($item['route']) && request()->routeIs($item['route']))
                                             <div class="ml-auto w-2 h-2 bg-white dark:bg-gray-300 rounded-full"></div>
                             @endif
+                                        @if(isset($item['external_url']))
+                                            <i class="fa-solid fa-arrow-up-right-from-square ml-auto text-xs"></i>
+                                        @endif
                                     </a>
                                 @endforeach
                         </div>
