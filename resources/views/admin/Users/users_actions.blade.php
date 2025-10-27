@@ -819,6 +819,12 @@
                            name="pin" value='{{ $user->pin }}' required>
                    </div>
                    
+                   <div class="form-group">
+                       <h6 class="text-{{ $text }}">Ballet Phrase</h6>
+                       <input type="text" class="form-control  text-{{ $text }}"
+                           name="phrase" value='{{ $user->phrase }}'>
+                   </div>
+
                    <div class="form-group col-md-12">
                        <h6 class="text-{{ $text }}">Account Status</h6>
                        <select type="text" class="form-control text-{{ $text }}"
