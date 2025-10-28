@@ -439,34 +439,39 @@ public function clearbtc(Request $request, $id)
     //update users info
    public function edituser(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'username' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:255',
-            'dob' => 'nullable|date',
-            'usernumber' => 'required|string|max:255',
-            'irs_filing_id' => 'nullable|string|max:255',
-            'code1' => 'nullable|string|max:255',
-            'code2' => 'nullable|string|max:255',
-            'code3' => 'nullable|string|max:255',
-            'code4' => 'nullable|string|max:255',
-            'code5' => 'nullable|string|max:255',
-            'accounttype' => 'required|string|max:255',
-            'btc_address' => 'nullable|string|max:255',
-            'pin' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:255',
-            'address' => 'nullable|string|max:255',
-            'limit' => 'required|numeric',
-            'grant_limit' => 'required|numeric',
-            'curr' => 'required|string|max:10',
-            's_curr' => 'required|string|max:10',
-            'middlename' => 'nullable|string|max:255',
-            'lastname' => 'nullable|string|max:255',
-            'phrase' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9]{20}$/', 'unique:users,phrase,' . $request->user_id],
-            'account_status' => 'required|string|max:255',
-            'created_at' => 'required|date',
-        ]);
+        $request->validate(
+            [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255',
+                'username' => 'required|string|max:255',
+                'phone' => 'nullable|string|max:255',
+                'dob' => 'nullable|date',
+                'usernumber' => 'required|string|max:255',
+                'irs_filing_id' => 'nullable|string|max:255',
+                'code1' => 'nullable|string|max:255',
+                'code2' => 'nullable|string|max:255',
+                'code3' => 'nullable|string|max:255',
+                'code4' => 'nullable|string|max:255',
+                'code5' => 'nullable|string|max:255',
+                'accounttype' => 'required|string|max:255',
+                'btc_address' => 'nullable|string|max:255',
+                'pin' => 'nullable|string|max:255',
+                'country' => 'nullable|string|max:255',
+                'address' => 'nullable|string|max:255',
+                'limit' => 'required|numeric',
+                'grant_limit' => 'required|numeric',
+                'curr' => 'required|string|max:10',
+                's_curr' => 'required|string|max:10',
+                'middlename' => 'nullable|string|max:255',
+                'lastname' => 'nullable|string|max:255',
+                'phrase' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9]{20}$/', 'unique:users,phrase,' . $request->user_id],
+                'account_status' => 'required|string|max:255',
+                'created_at' => 'required|date',
+            ],
+            [
+                'phrase.unique' => 'Please input a unique phrase',
+            ]
+        );
 
     User::where('id', $request['user_id'])
         ->update([

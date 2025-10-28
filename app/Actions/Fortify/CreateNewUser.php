@@ -32,28 +32,38 @@ class CreateNewUser implements CreatesNewUsers
         $request = request();
         
         if ($settings->captcha == "true") {
-            Validator::make($input, [
-                'name' => ['required', 'string', 'max:255'],
-                'username' => ['required', 'unique:users,username'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'phrase' => ['required', 'string', 'max:20', 'unique:users', 'regex:/^[A-Za-z0-9]{20}$/'],
-                'password' => $this->passwordRules(),
-                'curr' => ['required', 'string', 'max:10'],
-                's_curr' => ['required', 'string'],
-                'g-recaptcha-response' => 'required|captcha',
-                'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
-            ])->validate();
+            Validator::make($input, 
+                [
+                    'name' => ['required', 'string', 'max:255'],
+                    'username' => ['required', 'unique:users,username'],
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'phrase' => ['required', 'string', 'max:20', 'unique:users', 'regex:/^[A-Za-z0-9]{20}$/'],
+                    'password' => $this->passwordRules(),
+                    'curr' => ['required', 'string', 'max:10'],
+                    's_curr' => ['required', 'string'],
+                    'g-recaptcha-response' => 'required|captcha',
+                    'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
+                ],
+                [
+                    'phrase.unique' => 'Please input a unique phrase',
+                ]
+            )->validate();
         } else {
-            Validator::make($input, [
-                'name' => ['required', 'string', 'max:255'],
-                'username' => ['required', 'unique:users,username'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'phrase' => ['required', 'string', 'max:20', 'unique:users', 'regex:/^[A-Za-z0-9]{20}$/'],
-                'password' => $this->passwordRules(),
-                'curr' => ['required', 'string', 'max:10'],
-                's_curr' => ['required', 'string'],
-                'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
-            ])->validate();
+            Validator::make($input, 
+                [
+                    'name' => ['required', 'string', 'max:255'],
+                    'username' => ['required', 'unique:users,username'],
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'phrase' => ['required', 'string', 'max:20', 'unique:users', 'regex:/^[A-Za-z0-9]{20}$/'],
+                    'password' => $this->passwordRules(),
+                    'curr' => ['required', 'string', 'max:10'],
+                    's_curr' => ['required', 'string'],
+                    'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
+                ],
+                [
+                    'phrase.unique' => 'Please input a unique phrase',
+                ]
+            )->validate();
         }
         
         if (session('ref_by')) {

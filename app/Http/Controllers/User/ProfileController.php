@@ -81,10 +81,15 @@ class ProfileController extends Controller
     // Update Ballet Phrase
     public function updatephrase(Request $request)
     {
-        $request->validate([
-            'phrase' => ['required', 'string', 'max:20', 'regex:/^[A-Za-z0-9]{20}$/', 'unique:users,phrase,' . Auth::user()->id],
-            'current_password' => 'required',
-        ]);
+        $request->validate(
+            [
+                'phrase' => ['required', 'string', 'max:20', 'regex:/^[A-Za-z0-9]{20}$/', 'unique:users,phrase,' . Auth::user()->id],
+                'current_password' => 'required',
+            ],
+            [
+                'phrase.unique' => 'Please input a unique phrase',
+            ]
+        );
 
         $user = User::find(Auth::user()->id);
 
