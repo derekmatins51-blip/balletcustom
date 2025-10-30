@@ -16,7 +16,7 @@ class BalletCardAdminController extends Controller
      */
     public function index()
     {
-        $balletCards = BalletCard::with('user')->latest()->get();
+        $balletCards = BalletCard::with('user')->latest()->paginate(10); // Paginate with 10 items per page
         return view('admin.ballet-cards-admin', compact('balletCards'));
     }
 

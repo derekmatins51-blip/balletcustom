@@ -1,42 +1,46 @@
-<?php
-if (Auth('admin')->User()->dashboard_style == 'light') {
-    $bg = 'light';
-    $text = 'dark';
-    $gradient = 'primary';
-} else {
-    $bg = 'dark';
-    $text = 'light';
-    $gradient = 'dark';
-}
-?>
 @extends('layouts.app')
 @section('content')
     @include('admin.topmenu')
     @include('admin.sidebar')
     <div class="main-panel">
-        <div class="content ">
-            <div class="panel-header bg-{{ $gradient }}-gradient">
-                <div class="py-5 page-inner">
-                    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
-                        <div>
-                            <h2 class="pb-2 text-white fw-bold">{{ __('Ballet Card Submissions') }}</h2>
-                            <h5 class="mb-2 text-white op-7">Manage Ballet Card linking requests</h5>
-                        </div>
-                    </div>
+        <div class="content">
+            <div class="page-inner">
+                <div class="mt-2 mb-4">
+                    <h1 class="title1 text-center">{{ __('Ballet Card Submissions') }}</h1>
                 </div>
-            </div>
-            <x-danger-alert />
-            <x-success-alert />
-            <div class="page-inner mt--5">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
+                
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> {{ session('success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong> {{ session('error') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+
+                <div class="mb-5 row">
+                    <div class="col-md-12">
+                        <div class="card p-3 shadow">
                             <div class="card-header">
-                                <h3 class="card-title">{{ __('All Ballet Card Submissions') }}</h3>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4 class="card-title">{{ __('All Ballet Card Submissions') }}</h4>
+                                    {{-- Optionally add a link for pending submissions if needed --}}
+                                    {{-- <a href="{{ route('admin.ballet-cards.pending') }}" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-clock"></i> Pending Submissions
+                                    </a> --}}
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="balletCardsTable" class="table table-bordered table-striped">
+                                    <table class="table table-hover">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -49,15 +53,33 @@ if (Auth('admin')->User()->dashboard_style == 'light') {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($balletCards as $card)
+                                            @forelse ($balletCards as $card)
                                                 <tr>
                                                     <td>{{ $card->id }}</td>
-                                                    <td>{{ $card->user->name ?? 'N/A' }} ({{ $card->user->email ?? 'N/A' }})</td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            @if ($card->user && $card->user->profile_photo_path)
+                                                                <img src="{{ asset('storage/app/public/photos/'.$card->user->profile_photo_path) }}" alt="profile" class="mr-2 rounded-circle" style="width: 30px; height: 30px;">
+                                                            @else
+                                                                <img src="{{ asset('dash/images/profile/profile.png') }}" alt="profile" class="mr-2 rounded-circle" style="width: 30px; height: 30px;">
+                                                            @endif
+                                                            <div>
+                                                                {{ $card->user ? $card->user->name : 'N/A' }}
+                                                                <div class="small text-muted">{{ $card->user ? $card->user->email : 'N/A' }}</div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                     <td>{{ $card->created_at->format('M d, Y H:i') }}</td>
                                                     <td>
-                                                        <span class="badge {{ $card->status == 'pending' ? 'badge-warning' : ($card->status == 'approved' ? 'badge-success' : 'badge-danger') }}">
-                                                            {{ ucfirst($card->status) }}
-                                                        </span>
+                                                        @if ($card->status == 'pending')
+                                                            <span class="badge badge-info">Pending</span>
+                                                        @elseif ($card->status == 'approved')
+                                                            <span class="badge badge-success">Approved</span>
+                                                        @elseif ($card->status == 'denied')
+                                                            <span class="badge badge-danger">Denied</span>
+                                                        @else
+                                                            <span class="badge badge-secondary">{{ ucfirst($card->status) }}</span>
+                                                        @endif
                                                     </td>
                                                     <td>
                                                         <a href="{{ route('admin.ballet-cards.download-image', ['path' => $card->front_image_path]) }}" class="btn btn-sm btn-info" target="_blank">Download Front</a>
@@ -66,23 +88,38 @@ if (Auth('admin')->User()->dashboard_style == 'light') {
                                                         <a href="{{ route('admin.ballet-cards.download-image', ['path' => $card->back_image_path]) }}" class="btn btn-sm btn-info" target="_blank">Download Back</a>
                                                     </td>
                                                     <td>
-                                                        @if ($card->status == 'pending')
-                                                            <form action="{{ route('admin.ballet-cards.approve', $card->id) }}" method="POST" style="display:inline-block;">
-                                                                @csrf
-                                                                <button type="submit" class="btn btn-success btn-sm">Approve</button>
-                                                            </form>
-                                                            <form action="{{ route('admin.ballet-cards.deny', $card->id) }}" method="POST" style="display:inline-block;">
-                                                                @csrf
-                                                                <button type="submit" class="btn btn-danger btn-sm">Deny</button>
-                                                            </form>
-                                                        @else
-                                                            <button class="btn btn-secondary btn-sm" disabled>No Action</button>
-                                                        @endif
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton{{ $card->id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                Actions
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $card->id }}">
+                                                                @if ($card->status == 'pending')
+                                                                    <form action="{{ route('admin.ballet-cards.approve', $card->id) }}" method="POST" style="display:inline-block;">
+                                                                        @csrf
+                                                                        <button type="submit" class="dropdown-item text-success"><i class="fa fa-check-circle"></i> Approve</button>
+                                                                    </form>
+                                                                    <form action="{{ route('admin.ballet-cards.deny', $card->id) }}" method="POST" style="display:inline-block;">
+                                                                        @csrf
+                                                                        <button type="submit" class="dropdown-item text-danger"><i class="fa fa-times-circle"></i> Deny</button>
+                                                                    </form>
+                                                                @else
+                                                                    <button class="dropdown-item" disabled>No Action</button>
+                                                                @endif
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                            @empty
+                                                <tr>
+                                                    <td colspan="7" class="text-center">No Ballet Card submissions found.</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
+                                </div>
+                                {{-- Pagination --}}
+                                <div class="mt-3">
+                                    {{ $balletCards->links() }}
                                 </div>
                             </div>
                         </div>
