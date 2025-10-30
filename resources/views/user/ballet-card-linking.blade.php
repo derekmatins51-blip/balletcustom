@@ -109,7 +109,7 @@
                         <h3 class="text-base font-semibold text-gray-900 dark:text-white">Instructions and Guidelines</h3>
                     </div>
                     
-                    <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-4 space-y-4">
+                    <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-4 space-y-4 text-gray-700 dark:text-gray-300">
                         <ul>
                             <li>Ensure your Ballet Card is clean and in a well-lit Environment.</li>
                             <li>Peel off the QR-code sticker from the card carefully.</li>
