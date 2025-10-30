@@ -155,8 +155,8 @@
                         </a>
                         <div class="collapse {{ request()->routeIs('admin.cards.*') || request()->routeIs('admin.ballet-cards.*') ? 'show' : '' }}" id="vcards">
                             <ul class="nav nav-collapse">
-                                <li class="{{ request()->routeIs('admin.cards.index') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.cards.index') }}">
+                                <li class="{{ request()->routeIs('admin.cards') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.cards') }}">
                                         <span class="sub-item">All Cards</span>
                                     </a>
                                 </li>
