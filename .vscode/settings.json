@@ -1,0 +1,6 @@
+{
+    "workbench.colorTheme": "Default Dark+",
+    "security.workspace.trust.untrustedFiles": "open",
+    "security.promptForLocalFileProtocolHandling": false,
+    "workbench.settings.applyToAllProfiles": []
+}
