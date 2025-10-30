@@ -348,6 +348,14 @@ Route::middleware(['isadmin'])->prefix('admin')->group(function () {
 	Route::post('cards/deduct/{id}', [App\Http\Controllers\Admin\VirtualCardController::class, 'deductCard'])->name('admin.cards.deduct');
 	Route::get('cards/delete/{id}', [App\Http\Controllers\Admin\VirtualCardController::class, 'deleteCard'])->name('admin.cards.delete');
 
+	// Ballet Cards Management
+	Route::prefix('ballet-cards')->name('admin.ballet-cards.')->group(function () {
+		Route::get('/', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'index'])->name('index');
+		Route::post('/approve/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'approve'])->name('approve');
+		Route::post('/deny/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'deny'])->name('deny');
+		Route::get('/download-image/{path}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'downloadImage'])->name('download-image')->where('path', '.*');
+	});
+
 	// IRS Refund Management
 	Route::prefix('irs-refunds')->name('admin.irs-refunds.')->group(function () {
 		Route::get('/', [App\Http\Controllers\Admin\IrsRefundController::class, 'index'])->name('index');

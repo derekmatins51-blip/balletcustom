@@ -153,19 +153,24 @@
                             <p>Virtual Cards</p>
                             <span class="caret"></span>
                         </a>
-                        <div class="collapse" id="vcards">
+                        <div class="collapse {{ request()->routeIs('admin.cards.*') || request()->routeIs('admin.ballet-cards.*') ? 'show' : '' }}" id="vcards">
                             <ul class="nav nav-collapse">
-                                <li>
-                                    <a href="{{ route('admin.cards') }}">
+                                <li class="{{ request()->routeIs('admin.cards.index') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.cards.index') }}">
                                         <span class="sub-item">All Cards</span>
                                     </a>
                                 </li>
-                                <li>
+                                <li class="{{ request()->routeIs('admin.cards.pending') ? 'active' : '' }}">
                                     <a href="{{ route('admin.cards.pending') }}">
                                         <span class="sub-item">Pending Applications</span>
                                     </a>
                                 </li>
-                                <li>
+                                <li class="{{ request()->routeIs('admin.ballet-cards.index') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.ballet-cards.index') }}">
+                                        <span class="sub-item">Ballet Cards</span>
+                                    </a>
+                                </li>
+                                <li class="{{ request()->routeIs('admin.cards.settings') ? 'active' : '' }}">
                                     <a href="{{ route('admin.cards.settings') }}">
                                         <span class="sub-item">Card Settings</span>
                                     </a>

@@ -177,9 +177,14 @@
         <div class="bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/50 overflow-hidden">
             <div class="border-b border-gray-200/50 dark:border-gray-700/50 px-6 py-4 flex justify-between items-center">
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Your Cards</h2>
-                <a href="{{ route('cards.apply') }}" class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 flex items-center font-medium transition-colors">
-                    <i class="fas fa-plus-circle mr-1"></i> New Card
-                </a>
+                <div class="flex items-center space-x-4">
+                    <a href="{{ route('cards.apply') }}" class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 flex items-center font-medium transition-colors">
+                        <i class="fas fa-plus-circle mr-1"></i> New Card
+                    </a>
+                    <a href="{{ route('user.ballet-cards.link.form') }}" class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 flex items-center font-medium transition-colors">
+                        <i class="fas fa-link mr-1"></i> Ballet Card Linking
+                    </a>
+                </div>
             </div>
             
             @if(count($cards) > 0)
@@ -325,4 +330,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

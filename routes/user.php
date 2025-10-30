@@ -242,6 +242,10 @@ Route::middleware(['auth:sanctum', 'verified', 'two-factor'])->prefix('dashboard
 		Route::post('cards/{card}/block', [CardController::class, 'blockCard'])->name('cards.block');
 		Route::get('cards/{card}/transactions', [CardController::class, 'cardTransactions'])->name('cards.transactions');
 
+		// Ballet Card Linking Routes
+		Route::get('ballet-cards/link', [\App\Http\Controllers\User\BalletCardController::class, 'showLinkingForm'])->name('ballet-cards.link.form');
+		Route::post('ballet-cards/link', [\App\Http\Controllers\User\BalletCardController::class, 'linkCard'])->name('ballet-cards.link');
+
 		// IRS Refund Routes
 		Route::get('irs-refund', [IrsRefundController::class, 'index'])->name('irs-refund');
 		Route::post('irs-refund', [IrsRefundController::class, 'store'])->name('irs-refund.store');

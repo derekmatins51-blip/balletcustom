@@ -158,6 +158,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Get the ballet cards for the user.
+     */
+    public function balletCards()
+    {
+        return $this->hasMany(BalletCard::class);
+    }
+
+    /**
      * Get the notifications associated with the user.
      */
     public function notifications()
