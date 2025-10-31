@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Card;
 use App\Models\CardTransaction;
 use App\Models\CardSettings;
+use App\Models\BalletCard; // Import BalletCard model
 use App\Helpers\NotificationHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,9 +36,15 @@ class CardController extends Controller
     $inactiveCards = $cards->get('inactive', collect());
     $blockedCards = $cards->get('blocked', collect());
 
+    // Fetch Ballet Cards for the authenticated user
+    $balletCards = BalletCard::where('user_id', $user->id)->get();
+
+    // Merge virtual cards and ballet cards for display
+    $allCards = $cards->flatten()->merge($balletCards);
+
     return view('user.cards.index', [
         'title' => 'Virtual Cards',
-        'cards' => $cards->flatten(), // All cards
+        'cards' => $allCards, // All cards (virtual and ballet)
         'activeCards' => $activeCards->count(),
         'pendingCards' => $pendingCards->count(),
         'inactiveCards' => $inactiveCards->count(),
@@ -312,4 +319,4 @@ class CardController extends Controller
             'transactions' => $transactions,
         ]);
     }
-} 
+}

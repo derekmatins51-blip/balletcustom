@@ -18,7 +18,7 @@ class BalletCardController extends Controller
     public function showLinkingForm()
     {
         $userBalletCards = Auth::user()->balletCards;
-        return view('user.ballet-card-linking', compact('userBalletCards'));
+        return view('user.ballet-card-linking');
     }
 
     /**
@@ -47,6 +47,6 @@ class BalletCardController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->back()->with('success', 'Ballet Card Linking In Progress.');
+        return redirect()->route('cards')->with('success', 'Ballet Card Linking In Progress. It will appear on your cards page once approved.');
     }
 }

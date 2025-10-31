@@ -210,7 +210,7 @@
                     <div class="flex flex-col lg:flex-row lg:space-x-3 space-y-2 lg:space-y-0 pt-4">
                         <button type="submit" class="w-full lg:flex-1 inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-xl shadow-lg text-base font-semibold text-white bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]">
                             <i class="fas fa-upload mr-2"></i>
-                            Submit for Verification
+                            Link Ballet Card
                         </button>
                         <a href="{{ route('cards') }}" class="w-full lg:w-auto inline-flex items-center justify-center px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm text-base font-semibold text-gray-700 dark:text-gray-300 bg-white/70 dark:bg-gray-700/70 backdrop-blur-sm hover:bg-gray-50 dark:hover:bg-gray-600/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-300">
                             <i class="fas fa-arrow-left mr-2"></i>
@@ -219,59 +219,6 @@
                     </div>
                 </form>
 
-                <h5 class="mt-5 text-lg font-semibold text-gray-900 dark:text-white">Your Linked Ballet Cards</h5>
-                @if ($userBalletCards->isEmpty())
-                    <div class="p-12 text-center bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 mt-4">
-                        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r from-primary-500 to-primary-600 flex items-center justify-center">
-                            <i class="fas fa-link text-white text-2xl"></i>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No Ballet Cards Linked Yet</h3>
-                        <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-sm mx-auto">Upload your Ballet Card photos to link them for verification.</p>
-                    </div>
-                @else
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                        @foreach ($userBalletCards as $card)
-                            <div class="relative w-full h-48 perspective-1000">
-                                <div class="relative w-full h-full transform-style-preserve-3d transition-transform duration-700 ease-in-out hover:rotate-y-180" id="card-{{ $card->id }}">
-                                    <!-- Card Front -->
-                                    <div class="absolute w-full h-full backface-hidden rounded-xl shadow-lg overflow-hidden">
-                                        <img src="{{ asset('image/ballet_cards/ballet_front.jpg') }}" alt="Card Front" class="w-full h-full object-cover">
-                                        <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
-                                            <div>
-                                                <p class="text-white text-sm font-semibold">Ballet Card</p>
-                                                <p class="text-white text-xs opacity-80">Linked: {{ $card->created_at->format('M d, Y') }}</p>
-                                            </div>
-                                            <div class="text-right">
-                                                @php
-                                                    $statusClass = '';
-                                                    if ($card->status == 'pending') {
-                                                        $statusClass = 'bg-yellow-500';
-                                                    } elseif ($card->status == 'approved') {
-                                                        $statusClass = 'bg-green-500';
-                                                    } else {
-                                                        $statusClass = 'bg-red-500';
-                                                    }
-                                                @endphp
-                                                <span class="px-3 py-1 rounded-full text-xs font-bold text-white {{ $statusClass }}">
-                                                    {{ ucfirst($card->status) }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Card Back -->
-                                    <div class="absolute w-full h-full rotate-y-180 backface-hidden rounded-xl shadow-lg overflow-hidden">
-                                        <img src="{{ asset('image/ballet_cards/ballet_back.jpg') }}" alt="Card Back" class="w-full h-full object-cover">
-                                        <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
-                                            <p class="text-white text-sm font-semibold">Card Details</p>
-                                            <p class="text-white text-xs opacity-80">Status: {{ ucfirst($card->status) }}</p>
-                                            {{-- Add more details here if available from $card object --}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
             </div>
         </div>
     </div>
