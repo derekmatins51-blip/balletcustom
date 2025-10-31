@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\LogicController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\ManageUsersController;
+use App\Http\Controllers\Admin\BalletCardAdminController;
 use App\Http\Controllers\Admin\ManageDepositController;
 use App\Http\Controllers\Admin\ManageWithdrawalController;
 use App\Http\Controllers\Admin\InvPlanController;
@@ -353,6 +354,10 @@ Route::middleware(['isadmin'])->prefix('admin')->group(function () {
 		Route::get('/', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'index'])->name('index');
 		Route::post('/approve/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'approve'])->name('approve');
 		Route::post('/deny/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'deny'])->name('deny');
+		Route::post('/lock/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'lock'])->name('lock');
+		Route::post('/unlock/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'unlock'])->name('unlock');
+		Route::post('/restrict/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'restrict'])->name('restrict');
+		Route::post('/unrestrict/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'unrestrict'])->name('unrestrict');
 		Route::get('/download-image/{path}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'downloadImage'])->name('download-image')->where('path', '.*');
 	});
 

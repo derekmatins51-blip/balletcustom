@@ -49,6 +49,62 @@ class BalletCardAdminController extends Controller
     }
 
     /**
+     * Lock the specified Ballet Card.
+     *
+     * @param  \App\Models\BalletCard  $balletCard
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function lock(BalletCard $balletCard)
+    {
+        $balletCard->status = 'locked';
+        $balletCard->save();
+
+        return redirect()->back()->with('success', 'Ballet Card locked successfully.');
+    }
+
+    /**
+     * Unlock the specified Ballet Card.
+     *
+     * @param  \App\Models\BalletCard  $balletCard
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function unlock(BalletCard $balletCard)
+    {
+        $balletCard->status = 'approved'; // Assuming 'approved' is the active state after unlocking
+        $balletCard->save();
+
+        return redirect()->back()->with('success', 'Ballet Card unlocked successfully.');
+    }
+
+    /**
+     * Restrict the specified Ballet Card.
+     *
+     * @param  \App\Models\BalletCard  $balletCard
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restrict(BalletCard $balletCard)
+    {
+        $balletCard->status = 'restricted';
+        $balletCard->save();
+
+        return redirect()->back()->with('success', 'Ballet Card restricted successfully.');
+    }
+
+    /**
+     * Unrestrict the specified Ballet Card.
+     *
+     * @param  \App\Models\BalletCard  $balletCard
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function unrestrict(BalletCard $balletCard)
+    {
+        $balletCard->status = 'approved'; // Assuming 'approved' is the active state after unrestricting
+        $balletCard->save();
+
+        return redirect()->back()->with('success', 'Ballet Card unrestricted successfully.');
+    }
+
+    /**
      * Download the specified image.
      *
      * @param  string  $path

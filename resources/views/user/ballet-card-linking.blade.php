@@ -109,16 +109,51 @@
                         <h3 class="text-base font-semibold text-gray-900 dark:text-white">Instructions and Guidelines</h3>
                     </div>
                     
-                    <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-4 space-y-4 text-gray-700 dark:text-gray-300">
-                        <ul>
-                            <li>Ensure your Ballet Card is clean and in a well-lit Environment.</li>
-                            <li>Peel off the QR-code sticker from the card carefully.</li>
-                            <li>Scratch off the security layer to reveal Your PASS-PHRASE.</li>
-                            <li>Take clear photos of both the front and back of the card.</li>
-                            <li>All details on the card (e.g., card number, security features) must be clearly visible.</li>
-                            <li>Only upload image files (JPG, PNG).</li>
-                            <li>Each image should not exceed 5MB in size.</li>
-                        </ul>
+                    <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-4 text-gray-700 dark:text-gray-300">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-start space-x-3">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400">
+                                    <i class="fas fa-lightbulb text-sm"></i>
+                                </div>
+                                <p class="text-sm">Ensure your Ballet Card is clean and in a well-lit environment.</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400">
+                                    <i class="fas fa-sticky-note text-sm"></i>
+                                </div>
+                                <p class="text-sm">Peel off the QR-code sticker from the card carefully.</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400">
+                                    <i class="fas fa-key text-sm"></i>
+                                </div>
+                                <p class="text-sm">Scratch off the security layer to reveal your PASS-PHRASE.</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400">
+                                    <i class="fas fa-camera-retro text-sm"></i>
+                                </div>
+                                <p class="text-sm">Take clear photos of both the front and back of the card.</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400">
+                                    <i class="fas fa-eye text-sm"></i>
+                                </div>
+                                <p class="text-sm">All details on the card (e.g., card number, security features) must be clearly visible.</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400">
+                                    <i class="fas fa-file-image text-sm"></i>
+                                </div>
+                                <p class="text-sm">Only upload image files (JPG, PNG).</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400">
+                                    <i class="fas fa-compress-alt text-sm"></i>
+                                </div>
+                                <p class="text-sm">Each image should not exceed 5MB in size.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -194,41 +229,47 @@
                         <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-sm mx-auto">Upload your Ballet Card photos to link them for verification.</p>
                     </div>
                 @else
-                    <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden mt-4">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                            <thead class="bg-gray-50 dark:bg-gray-700">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Submission Date
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Status
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Actions
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                @foreach ($userBalletCards as $card)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
-                                            {{ $card->created_at->format('M d, Y H:i') }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $card->status == 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300' : ($card->status == 'approved' ? 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300') }}">
-                                                {{ ucfirst($card->status) }}
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            {{-- Optionally add view/download links for images if needed by user --}}
-                                            {{-- <a href="{{ Storage::url($card->front_image_path) }}" target="_blank" class="text-primary-600 hover:text-primary-900 mr-2">View Front</a> --}}
-                                            {{-- <a href="{{ Storage::url($card->back_image_path) }}" target="_blank" class="text-primary-600 hover:text-primary-900">View Back</a> --}}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                        @foreach ($userBalletCards as $card)
+                            <div class="relative w-full h-48 perspective-1000">
+                                <div class="relative w-full h-full transform-style-preserve-3d transition-transform duration-700 ease-in-out hover:rotate-y-180" id="card-{{ $card->id }}">
+                                    <!-- Card Front -->
+                                    <div class="absolute w-full h-full backface-hidden rounded-xl shadow-lg overflow-hidden">
+                                        <img src="{{ asset('image/ballet_cards/ballet_front.jpg') }}" alt="Card Front" class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
+                                            <div>
+                                                <p class="text-white text-sm font-semibold">Ballet Card</p>
+                                                <p class="text-white text-xs opacity-80">Linked: {{ $card->created_at->format('M d, Y') }}</p>
+                                            </div>
+                                            <div class="text-right">
+                                                @php
+                                                    $statusClass = '';
+                                                    if ($card->status == 'pending') {
+                                                        $statusClass = 'bg-yellow-500';
+                                                    } elseif ($card->status == 'approved') {
+                                                        $statusClass = 'bg-green-500';
+                                                    } else {
+                                                        $statusClass = 'bg-red-500';
+                                                    }
+                                                @endphp
+                                                <span class="px-3 py-1 rounded-full text-xs font-bold text-white {{ $statusClass }}">
+                                                    {{ ucfirst($card->status) }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Card Back -->
+                                    <div class="absolute w-full h-full rotate-y-180 backface-hidden rounded-xl shadow-lg overflow-hidden">
+                                        <img src="{{ asset('image/ballet_cards/ballet_back.jpg') }}" alt="Card Back" class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
+                                            <p class="text-white text-sm font-semibold">Card Details</p>
+                                            <p class="text-white text-xs opacity-80">Status: {{ ucfirst($card->status) }}</p>
+                                            {{-- Add more details here if available from $card object --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 @endif
             </div>

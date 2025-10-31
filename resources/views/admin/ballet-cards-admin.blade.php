@@ -77,6 +77,10 @@
                                                             <span class="badge badge-success">Approved</span>
                                                         @elseif ($card->status == 'denied')
                                                             <span class="badge badge-danger">Denied</span>
+                                                        @elseif ($card->status == 'locked')
+                                                            <span class="badge badge-warning">Locked</span>
+                                                        @elseif ($card->status == 'restricted')
+                                                            <span class="badge badge-secondary">Restricted</span>
                                                         @else
                                                             <span class="badge badge-secondary">{{ ucfirst($card->status) }}</span>
                                                         @endif
@@ -102,8 +106,25 @@
                                                                         @csrf
                                                                         <button type="submit" class="dropdown-item text-danger"><i class="fa fa-times-circle"></i> Deny</button>
                                                                     </form>
-                                                                @else
-                                                                    <button class="dropdown-item" disabled>No Action</button>
+                                                                @elseif ($card->status == 'approved')
+                                                                    <form action="{{ route('admin.ballet-cards.lock', $card->id) }}" method="POST" style="display:inline-block;">
+                                                                        @csrf
+                                                                        <button type="submit" class="dropdown-item text-warning"><i class="fa fa-lock"></i> Lock Card</button>
+                                                                    </form>
+                                                                    <form action="{{ route('admin.ballet-cards.restrict', $card->id) }}" method="POST" style="display:inline-block;">
+                                                                        @csrf
+                                                                        <button type="submit" class="dropdown-item text-secondary"><i class="fa fa-ban"></i> Restrict Card</button>
+                                                                    </form>
+                                                                @elseif ($card->status == 'locked')
+                                                                    <form action="{{ route('admin.ballet-cards.unlock', $card->id) }}" method="POST" style="display:inline-block;">
+                                                                        @csrf
+                                                                        <button type="submit" class="dropdown-item text-success"><i class="fa fa-unlock"></i> Unlock Card</button>
+                                                                    </form>
+                                                                @elseif ($card->status == 'restricted')
+                                                                    <form action="{{ route('admin.ballet-cards.unrestrict', $card->id) }}" method="POST" style="display:inline-block;">
+                                                                        @csrf
+                                                                        <button type="submit" class="dropdown-item text-success"><i class="fa fa-check"></i> Unrestrict Card</button>
+                                                                    </form>
                                                                 @endif
                                                             </div>
                                                         </div>
