@@ -312,45 +312,86 @@
                                 </div>
                             </div>
                         @elseif($card instanceof \App\Models\BalletCard)
-                            <div class="relative w-full h-48 perspective-1000">
-                                <div class="relative w-full h-full transform-style-preserve-3d transition-transform duration-700 ease-in-out hover:rotate-y-180" id="card-{{ $card->id }}">
-                                    <!-- Card Front -->
-                                    <div class="absolute w-full h-full backface-hidden rounded-xl shadow-lg overflow-hidden">
-                                        <img src="{{ asset('image/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-cover">
-                                        <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
-                                            <div>
-                                                <p class="text-white text-sm font-semibold">Ballet Card</p>
-                                                <p class="text-white text-xs opacity-80">Linked: {{ $card->created_at->format('M d, Y') }}</p>
+                            <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 hover:shadow-lg transition-all duration-300 group overflow-hidden">
+                                <!-- Card Header with Status -->
+                                <div class="px-4 pt-4 pb-2 flex justify-between items-center">
+                                    <div>
+                                        @if($card->status == 'active' || $card->status == 'approved')
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300">
+                                                <i class="fas fa-check-circle mr-1"></i> Active
+                                            </span>
+                                        @elseif($card->status == 'pending')
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300">
+                                                <i class="fas fa-clock mr-1"></i> Pending
+                                            </span>
+                                        @elseif($card->status == 'locked')
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900/50 text-orange-800 dark:text-orange-300">
+                                                <i class="fas fa-lock mr-1"></i> Locked
+                                            </span>
+                                        @elseif($card->status == 'restricted')
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300">
+                                                <i class="fas fa-ban mr-1"></i> Restricted
+                                            </span>
+                                        @else
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300">
+                                                <i class="fas fa-times-circle mr-1"></i> {{ ucfirst($card->status) }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                    
+                                    <div class="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                                        Ballet Card
+                                    </div>
+                                </div>
+                                
+                                <!-- Card Representation -->
+                                <div class="px-4 py-3">
+                                    <div class="relative w-full h-40 overflow-hidden rounded-xl perspective-1000">
+                                        <div class="relative w-full h-full transform-style-preserve-3d transition-transform duration-700 ease-in-out hover:rotate-y-180">
+                                            <!-- Card Front -->
+                                            <div class="absolute w-full h-full backface-hidden rounded-xl shadow-lg overflow-hidden">
+                                                <img src="{{ asset('image/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-cover">
+                                                <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
+                                                    <div>
+                                                        <p class="text-white text-sm font-semibold">Ballet Card</p>
+                                                        <p class="text-white text-xs opacity-80">Type: {{ $card->primary_account_type }}</p>
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <div class="text-xs font-mono text-white mt-4">•••• •••• •••• {{ substr($card->pass_phrase, -4) }}</div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="text-right">
-                                                @php
-                                                    $statusClass = '';
-                                                    if ($card->status == 'pending') {
-                                                        $statusClass = 'bg-yellow-500';
-                                                    } elseif ($card->status == 'approved') {
-                                                        $statusClass = 'bg-green-500';
-                                                    } elseif ($card->status == 'locked') {
-                                                        $statusClass = 'bg-orange-500';
-                                                    } elseif ($card->status == 'restricted') {
-                                                        $statusClass = 'bg-purple-500';
-                                                    } else {
-                                                        $statusClass = 'bg-red-500';
-                                                    }
-                                                @endphp
-                                                <span class="px-3 py-1 rounded-full text-xs font-bold text-white {{ $statusClass }}">
-                                                    {{ ucfirst($card->status) }}
-                                                </span>
+                                            <!-- Card Back -->
+                                            <div class="absolute w-full h-full rotate-y-180 backface-hidden rounded-xl shadow-lg overflow-hidden">
+                                                <img src="{{ asset('image/ballet_cards/ballet_back.jpg') }}" alt="Ballet Card Back" class="w-full h-full object-cover">
+                                                <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
+                                                    <p class="text-white text-sm font-semibold">Ballet Card Details</p>
+                                                    <p class="text-white text-xs opacity-80">Status: {{ ucfirst($card->status) }}</p>
+                                                    <p class="text-white text-xs opacity-80">Serial: {{ $card->serial_number ?? 'N/A' }}</p>
+                                                    <p class="text-white text-xs opacity-80">Address: {{ $card->primary_account_deposit_address }}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Card Back -->
-                                    <div class="absolute w-full h-full rotate-y-180 backface-hidden rounded-xl shadow-lg overflow-hidden">
-                                        <img src="{{ asset('image/ballet_cards/ballet_back.jpg') }}" alt="Ballet Card Back" class="w-full h-full object-cover">
-                                        <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
-                                            <p class="text-white text-sm font-semibold">Ballet Card Details</p>
-                                            <p class="text-white text-xs opacity-80">Status: {{ ucfirst($card->status) }}</p>
-                                            {{-- Add more details here if available from $card object --}}
-                                        </div>
+                                </div>
+                                
+                                <!-- Card Info -->
+                                <div class="px-4 pb-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-xs font-medium text-gray-600 dark:text-gray-400">Balance</span>
+                                        <span class="text-sm font-bold text-gray-900 dark:text-white">{{ $card->currency }} {{ number_format($card->balance, 2) }}</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mb-3">
+                                        <span class="text-xs font-medium text-gray-600 dark:text-gray-400">Account Type</span>
+                                        <span class="text-xs font-semibold text-gray-700 dark:text-gray-300">{{ $card->primary_account_type }}</span>
+                                    </div>
+                                    
+                                    <!-- Action Buttons -->
+                                    <div class="flex space-x-2">
+                                        <a href="{{ route('user.ballet-cards.view', $card->id) }}" class="flex-1 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white text-xs font-semibold py-2 px-3 rounded-lg transition-all duration-300 text-center">
+                                            View Details
+                                        </a>
+                                        {{-- Add other actions like transactions if applicable for Ballet Cards --}}
                                     </div>
                                 </div>
                             </div>

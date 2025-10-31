@@ -105,6 +105,102 @@ class BalletCardAdminController extends Controller
     }
 
     /**
+     * Show the form for editing the specified Ballet Card.
+     *
+     * @param  \App\Models\BalletCard  $balletCard
+     * @return \Illuminate\View\View
+     */
+    public function view(BalletCard $balletCard)
+    {
+        $title = 'View Ballet Card';
+        return view('admin.ballet-cards.view', compact('balletCard', 'title'));
+    }
+
+    /**
+     * Update the specified Ballet Card in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\BalletCard  $balletCard
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, BalletCard $balletCard)
+    {
+        $request->validate([
+            'primary_account_type' => 'required|string|in:BTC,ETH,USDT,LTC',
+            'primary_account_deposit_address' => 'required|string|max:255',
+            'serial_number' => 'nullable|string|max:8',
+            'pass_phrase' => 'required|string|max:255',
+            'currency' => 'required|string|max:10',
+        ]);
+
+        $balletCard->update($request->only([
+            'primary_account_type',
+            'primary_account_deposit_address',
+            'serial_number',
+            'pass_phrase',
+            'currency',
+        ]));
+
+        return redirect()->back()->with('success', 'Ballet Card details updated successfully.');
+    }
+
+    /**
+     * Top up the specified Ballet Card.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\BalletCard  $balletCard
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function topup(Request $request, BalletCard $balletCard)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:1',
+        ]);
+
+        $balletCard->balance += $request->amount;
+        $balletCard->save();
+
+        // Optionally record transaction
+        // CardTransaction::create([...]);
+
+        return redirect()->back()->with('success', 'Ballet Card topped up successfully.');
+    }
+
+    /**
+     * Deduct from the specified Ballet Card.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\BalletCard  $balletCard
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deduct(Request $request, BalletCard $balletCard)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:1|max:' . $balletCard->balance,
+        ]);
+
+        $balletCard->balance -= $request->amount;
+        $balletCard->save();
+
+        // Optionally record transaction
+        // CardTransaction::create([...]);
+
+        return redirect()->back()->with('success', 'Amount deducted from Ballet Card successfully.');
+    }
+
+    /**
+     * Delete the specified Ballet Card.
+     *
+     * @param  \App\Models\BalletCard  $balletCard
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete(BalletCard $balletCard)
+    {
+        $balletCard->delete();
+        return redirect()->route('admin.ballet-cards.index')->with('success', 'Ballet Card deleted successfully.');
+    }
+
+    /**
      * Download the specified image.
      *
      * @param  string  $path

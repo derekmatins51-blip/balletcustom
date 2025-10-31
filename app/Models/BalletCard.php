@@ -19,6 +19,12 @@ class BalletCard extends Model
         'front_image_path',
         'back_image_path',
         'status',
+        'primary_account_deposit_address',
+        'primary_account_type',
+        'serial_number',
+        'pass_phrase',
+        'balance',
+        'currency',
     ];
 
     /**

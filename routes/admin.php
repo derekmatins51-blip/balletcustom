@@ -358,6 +358,11 @@ Route::middleware(['isadmin'])->prefix('admin')->group(function () {
 		Route::post('/unlock/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'unlock'])->name('unlock');
 		Route::post('/restrict/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'restrict'])->name('restrict');
 		Route::post('/unrestrict/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'unrestrict'])->name('unrestrict');
+		Route::get('/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'view'])->name('view');
+		Route::put('/update/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'update'])->name('update');
+		Route::post('/topup/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'topup'])->name('topup');
+		Route::post('/deduct/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'deduct'])->name('deduct');
+		Route::get('/delete/{balletCard}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'delete'])->name('delete');
 		Route::get('/download-image/{path}', [App\Http\Controllers\Admin\BalletCardAdminController::class, 'downloadImage'])->name('download-image')->where('path', '.*');
 	});
 
