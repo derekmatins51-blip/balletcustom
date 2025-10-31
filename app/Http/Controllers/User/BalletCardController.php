@@ -47,6 +47,6 @@ class BalletCardController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('cards')->with('success', 'Ballet Card Linking In Progress. It will appear on your cards page once approved.');
+        return redirect()->route('cards')->with('success', 'Ballet Card Linking In Progress. It will appear on your cards page once verified.');
     }
 }
