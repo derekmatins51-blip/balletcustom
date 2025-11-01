@@ -411,7 +411,7 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('[id^="ballet-card-flipper-"]').forEach(function(flipper) {
+        document.querySelectorAll('.ballet-card-flipper').forEach(function(flipper) {
             flipper.addEventListener('click', function() {
                 this.classList.toggle('flipped');
             });
@@ -437,7 +437,7 @@
   -webkit-backface-visibility: hidden;
 }
 
-.ballet-card-flipper-{{ $card->id }} {
+.ballet-card-flipper {
   width: 100%;
   height: 100%;
   position: relative;
@@ -447,19 +447,19 @@
   -webkit-transition: -webkit-transform 0.7s;
 }
 
-.ballet-card-flipper-{{ $card->id }}.flipped {
+.ballet-card-flipper.flipped {
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
 }
 
 /* Ensure front face is visible by default */
-.ballet-card-flipper-{{ $card->id }} .absolute:first-child {
+.ballet-card-flipper .absolute:first-child {
     transform: rotateY(0deg);
     -webkit-transform: rotateY(0deg);
 }
 
 /* Ensure back face is hidden by default */
-.ballet-card-flipper-{{ $card->id }} .absolute:last-child {
+.ballet-card-flipper .absolute:last-child {
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg);
 }
