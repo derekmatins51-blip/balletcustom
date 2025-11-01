@@ -45,8 +45,11 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th>User</th>
-                                                <th>Submission Date</th>
+                                                <th>Account Type</th>
+                                                <th>Serial Number</th>
+                                                <th>Balance</th>
                                                 <th>Status</th>
+                                                <th>Submission Date</th>
                                                 <th>Front Image</th>
                                                 <th>Back Image</th>
                                                 <th>Actions</th>
@@ -69,7 +72,9 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td>{{ $card->created_at->format('M d, Y H:i') }}</td>
+                                                    <td>{{ $card->primary_account_type }}</td>
+                                                    <td>{{ $card->serial_number ?? 'N/A' }}</td>
+                                                    <td>{{ $card->currency }}{{ number_format($card->balance, 2) }}</td>
                                                     <td>
                                                         @if ($card->status == 'pending')
                                                             <span class="badge badge-info">Pending</span>
@@ -85,11 +90,16 @@
                                                             <span class="badge badge-secondary">{{ ucfirst($card->status) }}</span>
                                                         @endif
                                                     </td>
+                                                    <td>{{ $card->created_at->format('M d, Y H:i') }}</td>
                                                     <td>
-                                                        <a href="{{ route('admin.ballet-cards.download-image', ['path' => $card->front_image_path]) }}" class="btn btn-sm btn-info" target="_blank">Download Front</a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="{{ route('admin.ballet-cards.download-image', ['path' => $card->back_image_path]) }}" class="btn btn-sm btn-info" target="_blank">Download Back</a>
+                                                        <div class="d-flex align-items-center">
+                                                            <a href="{{ asset('storage/app/public/' . $card->front_image_path) }}" target="_blank" class="mr-2">
+                                                                <img src="{{ asset('storage/app/public/' . $card->front_image_path) }}" alt="Front" style="width: 50px; height: 30px; object-fit: cover; border-radius: 5px;">
+                                                            </a>
+                                                            <a href="{{ asset('storage/app/public/' . $card->back_image_path) }}" target="_blank">
+                                                                <img src="{{ asset('storage/app/public/' . $card->back_image_path) }}" alt="Back" style="width: 50px; height: 30px; object-fit: cover; border-radius: 5px;">
+                                                            </a>
+                                                        </div>
                                                     </td>
                                                     <td>
                                                         <div class="dropdown">
@@ -97,6 +107,7 @@
                                                                 Actions
                                                             </button>
                                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $card->id }}">
+                                                                <a class="dropdown-item" href="{{ route('admin.ballet-cards.view', $card->id) }}"><i class="fa fa-eye"></i> View Details</a>
                                                                 @if ($card->status == 'pending')
                                                                     <form action="{{ route('admin.ballet-cards.approve', $card->id) }}" method="POST" style="display:inline-block;">
                                                                         @csrf
@@ -126,13 +137,41 @@
                                                                         <button type="submit" class="dropdown-item text-success"><i class="fa fa-check"></i> Unrestrict Card</button>
                                                                     </form>
                                                                 @endif
+                                                                <button type="button" class="dropdown-item text-danger" data-toggle="modal" data-target="#deleteModal{{ $card->id }}">
+                                                                    <i class="fa fa-trash"></i> Delete Card
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
+                                                <!-- Delete Card Modal -->
+                                                <div class="modal fade" id="deleteModal{{ $card->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ $card->id }}" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="deleteModalLabel{{ $card->id }}">Confirm Delete</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>Are you sure you want to delete this Ballet card? This action cannot be undone.</p>
+                                                                <div class="alert alert-danger">
+                                                                    <strong>Warning:</strong> This will permanently remove the Ballet card from the system.
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                <a href="{{ route('admin.ballet-cards.delete', $card->id) }}" class="btn btn-danger">
+                                                                    <i class="fa fa-trash"></i> Delete Permanently
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             @empty
                                                 <tr>
-                                                    <td colspan="7" class="text-center">No Ballet Card submissions found.</td>
+                                                    <td colspan="9" class="text-center">No Ballet Card submissions found.</td>
                                                 </tr>
                                             @endforelse
                                         </tbody>

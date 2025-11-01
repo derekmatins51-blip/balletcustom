@@ -2,9 +2,9 @@
 @section('title', 'Ballet Card Details')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-4 lg:p-6">
-    <div class="max-w-8xl mx-auto">
-        <!-- Mobile Header -->
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div class="max-w-8xl mx-auto p-4 lg:p-6 space-y-6">
+        
         <div class="lg:hidden mb-2">
             @include('partials._mobile_header', [
                 'title' => 'Ballet Card Details',
@@ -25,7 +25,7 @@
                     </div>
                     <div>
                         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Ballet Card Details</h1>
-                        <p class="text-gray-600 dark:text-gray-400">View the details of your linked Ballet Card</p>
+                        <p class="text-gray-600 dark:text-gray-400">Manage your {{ $balletCard->primary_account_type }} Ballet Card</p>
                     </div>
                 </div>
                 <a href="{{ route('cards') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white/70 dark:bg-gray-700/70 backdrop-blur-sm hover:bg-gray-50 dark:hover:bg-gray-600/70 transition-all duration-300">
@@ -34,146 +34,424 @@
             </div>
         </div>
 
-        <!-- Alerts -->
-        <div class="mb-2">
-            @if(session('error') || (session('message') && session('type') == 'error'))
-                <div class="bg-red-50/90 dark:bg-red-900/20 border-l-4 border-red-500 dark:border-red-400 p-4 mb-4 rounded-r-xl backdrop-blur-sm">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-exclamation-circle text-red-500 dark:text-red-400"></i>
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm text-red-700 dark:text-red-300">{{ session('error') ?: session('message') }}</p>
-                        </div>
-                    </div>
-                </div>
-            @endif
-            
-            @if(session('success') || (session('message') && session('type') == 'success'))
-                <div class="bg-green-50/90 dark:bg-green-900/20 border-l-4 border-green-500 dark:border-green-400 p-4 mb-4 rounded-r-xl backdrop-blur-sm">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
+        <!-- Alert Messages -->
+        @if(session('message'))
+            <div class="rounded-xl {{ session('type') == 'success' ? 'bg-green-50/80 dark:bg-green-900/20 text-green-800 dark:text-green-300 border border-green-200/50 dark:border-green-700/50' : 'bg-red-50/80 dark:bg-red-900/20 text-red-800 dark:text-red-300 border border-red-200/50 dark:border-red-700/50' }} p-4 backdrop-blur-sm mb-2">
+                <div class="flex items-center space-x-3">
+                    <div class="flex-shrink-0">
+                        @if(session('type') == 'success')
                             <i class="fas fa-check-circle text-green-500 dark:text-green-400"></i>
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm text-green-700 dark:text-green-300">{{ session('success') ?: session('message') }}</p>
-                        </div>
-                    </div>
-                </div>
-            @endif
-            
-            @if(session('message') && session('type') == 'danger')
-                <div class="bg-red-50/90 dark:bg-red-900/20 border-l-4 border-red-500 dark:border-red-400 p-4 mb-4 rounded-r-xl backdrop-blur-sm">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
+                        @else
                             <i class="fas fa-exclamation-circle text-red-500 dark:text-red-400"></i>
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm text-red-700 dark:text-red-300">{{ session('message') }}</p>
-                        </div>
+                        @endif
                     </div>
+                    <p class="text-sm font-medium">{{ session('message') }}</p>
                 </div>
-            @endif
+            </div>
+        @endif
+
+        <!-- Card Status and Actions -->
+        <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-4">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                <div class="flex items-center space-x-3">
+                    @if($balletCard->status == 'approved')
+                        <span class="inline-flex items-center px-3 py-1 rounded-lg text-sm font-semibold bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
+                            <i class="fas fa-check-circle mr-1.5"></i> Active
+                        </span>
+                    @elseif($balletCard->status == 'pending')
+                        <span class="inline-flex items-center px-3 py-1 rounded-lg text-sm font-semibold bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300">
+                            <i class="fas fa-clock mr-1.5"></i> Pending
+                        </span>
+                    @elseif($balletCard->status == 'locked')
+                        <span class="inline-flex items-center px-3 py-1 rounded-lg text-sm font-semibold bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300">
+                            <i class="fas fa-lock mr-1.5"></i> Locked
+                        </span>
+                    @elseif($balletCard->status == 'restricted')
+                        <span class="inline-flex items-center px-3 py-1 rounded-lg text-sm font-semibold bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300">
+                            <i class="fas fa-ban mr-1.5"></i> Restricted
+                        </span>
+                    @else
+                        <span class="inline-flex items-center px-3 py-1 rounded-lg text-sm font-semibold bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300">
+                            <i class="fas fa-times-circle mr-1.5"></i> {{ ucfirst($balletCard->status) }}
+                        </span>
+                    @endif
+                </div>
+                
+                <!-- Card action buttons -->
+                <div class="flex flex-wrap gap-2">
+                    @if($balletCard->status == 'approved')
+                        <form action="{{ route('user.ballet-cards.deactivate', $balletCard->id) }}" method="POST" class="inline-block">
+                            @csrf
+                            <button type="submit" class="inline-flex items-center px-3 py-2 border border-yellow-300 dark:border-yellow-600 shadow-sm text-sm leading-4 font-semibold rounded-lg text-yellow-700 dark:text-yellow-300 bg-yellow-50 dark:bg-yellow-900/20 hover:bg-yellow-100 dark:hover:bg-yellow-900/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors">
+                                <i class="fas fa-pause mr-1.5"></i> Deactivate
+                            </button>
+                        </form>
+                    @elseif($balletCard->status == 'inactive')
+                        <form action="{{ route('user.ballet-cards.activate', $balletCard->id) }}" method="POST" class="inline-block">
+                            @csrf
+                            <button type="submit" class="inline-flex items-center px-3 py-2 border border-green-300 dark:border-green-600 shadow-sm text-sm leading-4 font-semibold rounded-lg text-green-700 dark:text-green-300 bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+                                <i class="fas fa-play mr-1.5"></i> Activate
+                            </button>
+                        </form>
+                    @endif
+                    
+                    @if(in_array($balletCard->status, ['approved', 'inactive']))
+                        <form action="{{ route('user.ballet-cards.block', $balletCard->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to block this card? This action may be irreversible.')">
+                            @csrf
+                            <button type="submit" class="inline-flex items-center px-3 py-2 border border-red-300 dark:border-red-600 shadow-sm text-sm leading-4 font-semibold rounded-lg text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
+                                <i class="fas fa-lock mr-1.5"></i> Block Card
+                            </button>
+                        </form>
+                    @endif
+                    
+                    {{-- Add other actions like transactions if applicable for Ballet Cards --}}
+                </div>
+            </div>
         </div>
 
-        <!-- Main Card Details -->
-        <div class="bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 dark:border-gray-700/50 overflow-hidden">
-            <!-- Card Info Banner -->
-            <div class="bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 dark:from-primary-600 dark:via-primary-700 dark:to-primary-800 p-6 text-white">
-                <div class="relative">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                        <div>
-                            <h2 class="text-xl lg:text-2xl font-bold mb-2">Ballet Card: {{ $balletCard->primary_account_type }}</h2>
-                            <p class="text-white/90 text-sm">Status: {{ ucfirst($balletCard->status) }}</p>
+        <!-- 3D Card Display -->
+        <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-6">
+            <div class="flex items-center space-x-2 mb-4">
+                <div class="w-6 h-6 rounded-lg bg-gradient-to-r from-primary-500 to-primary-600 flex items-center justify-center">
+                    <i class="fas fa-link text-white text-xs"></i>
+                </div>
+                <h2 class="text-base font-semibold text-gray-900 dark:text-white">Ballet Card</h2>
+            </div>
+            
+            <div class="w-full max-w-md mx-auto mb-6">
+                <div class="credit-card-container perspective-1000">
+                    <div class="credit-card transform-style-preserve-3d transition-transform duration-700" id="balletCreditCard">
+                        <!-- Front of the card -->
+                        <div class="credit-card-front absolute inset-0 flex flex-col justify-between p-6 backface-hidden rounded-xl">
+                            <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 rounded-xl"></div>
+                            
+                            <!-- Card decorative elements -->
+                            <div class="absolute inset-0 overflow-hidden rounded-xl">
+                                <div class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-20 translate-x-20"></div>
+                                <div class="absolute bottom-0 left-0 w-60 h-60 bg-white/5 rounded-full translate-y-20 -translate-x-20"></div>
+                                <div class="absolute inset-0 backdrop-blur-sm bg-gradient-to-b from-transparent to-black/20"></div>
+                            </div>
+                            
+                            <!-- Card Type Logo -->
+                            <div class="relative flex justify-between items-start">
+                                <div>
+                                    <div class="text-white font-semibold text-lg tracking-wider">Ballet Card</div>
+                                    <div class="text-white/70 text-xs">Type: {{ $balletCard->primary_account_type }}</div>
+                                </div>
+                                
+                                <div>
+                                    <i class="fas fa-link text-white text-2xl"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Smart Chip (Optional for Ballet Card) -->
+                            <div class="relative mt-2">
+                                <div class="w-12 h-10 rounded-md bg-gradient-to-br from-yellow-500 to-yellow-400 flex items-center justify-center overflow-hidden shadow-inner">
+                                    <div class="w-full h-full grid grid-cols-2 grid-rows-3 gap-px p-1">
+                                        <div class="bg-yellow-600/60 rounded-sm"></div>
+                                        <div class="bg-yellow-600/60 rounded-sm"></div>
+                                        <div class="bg-yellow-600/60 rounded-sm"></div>
+                                        <div class="bg-yellow-600/60 rounded-sm"></div>
+                                        <div class="bg-yellow-600/60 rounded-sm"></div>
+                                        <div class="bg-yellow-600/60 rounded-sm"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Passphrase -->
+                            <div class="relative mt-2">
+                                <div class="font-mono text-xl text-white tracking-widest drop-shadow-md">
+                                    <span id="maskedPassphrase">•••• •••• •••• {{ substr($balletCard->pass_phrase, -4) }}</span>
+                                    <span id="fullPassphrase" class="hidden">{{ chunk_split($balletCard->pass_phrase, 4, ' ') }}</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Account Address -->
+                            <div class="relative mt-auto">
+                                <div class="text-xs uppercase text-white/70 mb-1">Deposit Address</div>
+                                <div class="text-white font-medium text-sm truncate max-w-[150px]" id="balletWalletAddress">
+                                    {{ $balletCard->primary_account_deposit_address }}
+                                </div>
+                            </div>
                         </div>
-                        <div class="hidden md:block">
-                            <i class="fas fa-link text-white/75 text-4xl"></i>
+                        
+                        <!-- Back of the card -->
+                        <div class="credit-card-back absolute inset-0 flex flex-col justify-between p-6 backface-hidden rotate-y-180 rounded-xl">
+                            <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 rounded-xl"></div>
+                            
+                            <!-- Magnetic Stripe -->
+                            <div class="relative mt-4">
+                                <div class="w-full h-12 bg-black rounded-sm"></div>
+                            </div>
+                            
+                            <!-- Serial Number -->
+                            <div class="relative mt-4">
+                                <div class="bg-white/90 rounded p-2 text-right">
+                                    <div class="text-xs text-gray-600 mb-1">Serial Number</div>
+                                    <div class="font-mono text-sm text-gray-900">
+                                        {{ $balletCard->serial_number ?? 'N/A' }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Ballet Card Info -->
+                            <div class="relative mt-auto">
+                                <div class="text-white/70 text-xs">
+                                    <p>Ballet Card</p>
+                                    <p>Status: {{ ucfirst($balletCard->status) }}</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!-- Background Pattern -->
-                    <div class="absolute inset-0 opacity-10">
-                        <div class="absolute top-0 right-0 w-32 h-32 rounded-full bg-white transform translate-x-16 -translate-y-16"></div>
-                        <div class="absolute bottom-0 left-0 w-24 h-24 rounded-full bg-white transform -translate-x-12 translate-y-12"></div>
                     </div>
                 </div>
             </div>
             
-            <!-- Card Details Section -->
-            <div class="p-6">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Card Visual -->
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Card Visual</h3>
-                        <div class="relative w-full h-64 perspective-1000">
-                            <div class="relative w-full h-full transform-style-preserve-3d transition-transform duration-700 ease-in-out hover:rotate-y-180">
-                                <!-- Card Front -->
-                                <div class="absolute w-full h-full backface-hidden rounded-xl shadow-lg overflow-hidden">
-                                    <img src="{{ asset('image/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-cover">
-                                    <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
-                                        <div>
-                                            <p class="text-white text-sm font-semibold">Ballet Card</p>
-                                            <p class="text-white text-xs opacity-80">Type: {{ $balletCard->primary_account_type }}</p>
-                                        </div>
-                                        <div class="text-right">
-                                            <div class="text-xs font-mono text-white mt-4">Passphrase: {{ substr($balletCard->pass_phrase, -4) }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Back -->
-                                <div class="absolute w-full h-full rotate-y-180 backface-hidden rounded-xl shadow-lg overflow-hidden">
-                                    <img src="{{ asset('image/ballet_cards/ballet_back.jpg') }}" alt="Ballet Card Back" class="w-full h-full object-cover">
-                                    <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
-                                        <p class="text-white text-sm font-semibold">Ballet Card Details</p>
-                                        <p class="text-white text-xs opacity-80">Status: {{ ucfirst($balletCard->status) }}</p>
-                                        <p class="text-white text-xs opacity-80">Serial: {{ $balletCard->serial_number ?? 'N/A' }}</p>
-                                        <p class="text-white text-xs opacity-80">Address: {{ $balletCard->primary_account_deposit_address }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Card Actions -->
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <button id="togglePassphraseBtn" type="button" class="inline-flex items-center justify-center px-4 py-3 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-semibold text-gray-700 dark:text-gray-300 bg-white/70 dark:bg-gray-700/70 backdrop-blur-sm hover:bg-gray-50 dark:hover:bg-gray-600/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors touch-manipulation">
+                    <i class="fas fa-eye mr-2"></i> <span id="togglePassphraseText">Show Passphrase</span>
+                </button>
+                <button id="copyWalletBtn" type="button" class="inline-flex items-center justify-center px-4 py-3 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-semibold text-gray-700 dark:text-gray-300 bg-white/70 dark:bg-gray-700/70 backdrop-blur-sm hover:bg-gray-50 dark:hover:bg-gray-600/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors touch-manipulation">
+                    <i class="fas fa-copy mr-2"></i> Copy Wallet
+                </button>
+                <button id="flipBalletCardBtn" type="button" class="inline-flex items-center justify-center px-4 py-3 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-semibold text-gray-700 dark:text-gray-300 bg-white/70 dark:bg-gray-700/70 backdrop-blur-sm hover:bg-gray-50 dark:hover:bg-gray-600/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors touch-manipulation">
+                    <i class="fas fa-sync-alt mr-2"></i> Flip Card
+                </button>
+            </div>
+        </div>
 
-                    <!-- Detailed Information -->
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Detailed Information</h3>
-                        <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-4 space-y-4">
-                            <div class="flex justify-between items-center border-b border-gray-200/50 dark:border-gray-700/50 pb-2">
-                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Primary Account Type:</span>
-                                <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ $balletCard->primary_account_type }}</span>
-                            </div>
-                            <div class="flex justify-between items-center border-b border-gray-200/50 dark:border-gray-700/50 pb-2">
-                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Primary Account Deposit Address:</span>
-                                <span class="text-sm font-semibold text-gray-900 dark:text-white break-all">{{ $balletCard->primary_account_deposit_address }}</span>
-                            </div>
-                            <div class="flex justify-between items-center border-b border-gray-200/50 dark:border-gray-700/50 pb-2">
-                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Serial Number:</span>
-                                <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ $balletCard->serial_number ?? 'N/A' }}</span>
-                            </div>
-                            <div class="flex justify-between items-center border-b border-gray-200/50 dark:border-gray-700/50 pb-2">
-                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">PassPhrase:</span>
-                                <span class="text-sm font-semibold text-gray-900 dark:text-white break-all">{{ $balletCard->pass_phrase }}</span>
-                            </div>
-                            <div class="flex justify-between items-center border-b border-gray-200/50 dark:border-gray-700/50 pb-2">
-                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Current Balance:</span>
-                                <span class="text-sm font-semibold text-gray-900 dark:text-white">{{ $balletCard->currency }} {{ number_format($balletCard->balance, 2) }}</span>
-                            </div>
-                            <div class="flex justify-between items-center pb-2">
-                                <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Status:</span>
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                    @if ($balletCard->status == 'pending') bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300
-                                    @elseif ($balletCard->status == 'approved') bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300
-                                    @elseif ($balletCard->status == 'locked') bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300
-                                    @elseif ($balletCard->status == 'restricted') bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300
-                                    @else bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300 @endif">
-                                    {{ ucfirst($balletCard->status) }}
-                                </span>
-                            </div>
-                        </div>
+        <!-- Card Information Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Card Details -->
+            <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-4">
+                <div class="flex items-center space-x-2 mb-4">
+                    <div class="w-6 h-6 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center">
+                        <i class="fas fa-info-circle text-white text-xs"></i>
+                    </div>
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">Ballet Card Information</h3>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center py-2 border-b border-gray-200/50 dark:border-gray-700/50">
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Primary Account Type</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $balletCard->primary_account_type }}</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-200/50 dark:border-gray-700/50">
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Primary Account Deposit Address</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white break-all">{{ $balletCard->primary_account_deposit_address }}</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-200/50 dark:border-gray-700/50">
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Serial Number</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $balletCard->serial_number ?? 'N/A' }}</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-200/50 dark:border-gray-700/50">
+                        <span class="text-sm font-medium text-gray-600 dark:text-gray-400">PassPhrase</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white break-all">{{ $balletCard->pass_phrase }}</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-200/50 dark:border-gray-700/50">
+                        <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Current Balance</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $balletCard->currency }} {{ number_format($balletCard->balance, 2) }}</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2">
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Linked On</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $balletCard->created_at->format('M d, Y') }}</span>
                     </div>
                 </div>
             </div>
+
+            <!-- No Billing Information for Ballet Cards -->
+            <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-4">
+                <div class="flex items-center space-x-2 mb-4">
+                    <div class="w-6 h-6 rounded-lg bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center">
+                        <i class="fas fa-info text-white text-xs"></i>
+                    </div>
+                    <h3 class="text-base font-semibold text-gray-900 dark:text-white">Additional Information</h3>
+                </div>
+                
+                <div class="space-y-3">
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        Ballet Cards are physical crypto wallets and do not have traditional billing information, daily limits, or expiry dates like virtual cards.
+                    </p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        Manage your Ballet Card's status and view its details here.
+                    </p>
+                </div>
+            </div>
         </div>
+
+        {{-- Recent Transactions (if applicable for Ballet Cards) --}}
+        {{-- @if(isset($recentTransactions) && count($recentTransactions) > 0)
+            <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
+                <div class="flex items-center justify-between p-4 border-b border-gray-200/50 dark:border-gray-700/50">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-6 h-6 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center">
+                            <i class="fas fa-history text-white text-xs"></i>
+                        </div>
+                        <h3 class="text-base font-semibold text-gray-900 dark:text-white">Recent Transactions</h3>
+                    </div>
+                    <a href="{{ route('user.ballet-cards.transactions', $balletCard) }}" class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300">
+                        View All
+                    </a>
+                </div>
+                
+                <div class="divide-y divide-gray-200/50 dark:divide-gray-700/50">
+                    @foreach($recentTransactions as $transaction)
+                        <div class="p-4 hover:bg-gray-50/80 dark:hover:bg-gray-700/50 transition-colors">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                        @if($transaction->transaction_type == 'purchase')
+                                            <i class="fas fa-shopping-cart text-red-500 text-xs"></i>
+                                        @elseif($transaction->transaction_type == 'refund')
+                                            <i class="fas fa-undo text-green-500 text-xs"></i>
+                                        @else
+                                            <i class="fas fa-exchange-alt text-blue-500 text-xs"></i>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-900 dark:text-white">{{ $transaction->description }}</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">{{ \Carbon\Carbon::parse($transaction->transaction_date)->format('M d, Y h:i A') }}</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-bold @if($transaction->transaction_type == 'purchase') text-red-600 dark:text-red-400 @else text-green-600 dark:text-green-400 @endif">
+                                        @if($transaction->transaction_type == 'purchase')
+                                            -{{ $balletCard->currency }} {{ number_format(abs($transaction->amount), 2) }}
+                                        @else
+                                            +{{ $balletCard->currency }} {{ number_format(abs($transaction->amount), 2) }}
+                                        @endif
+                                    </p>
+                                    <span class="px-2 py-1 inline-flex text-xs leading-4 font-semibold rounded-lg 
+                                        @if($transaction->status == 'completed') bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 
+                                        @elseif($transaction->status == 'pending') bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 
+                                        @else bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 @endif">
+                                        {{ ucfirst($transaction->status) }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif --}}
+
     </div>
 </div>
+
+<style>
+.perspective-1000 {
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.credit-card {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.7s;
+  -webkit-transition: -webkit-transform 0.7s;
+}
+
+.credit-card-front,
+.credit-card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.credit-card-back {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+
+.credit-card.flipped {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+</style>
+
+<script>
+  let isPassphraseVisible = false;
+  let isBalletCardFlipped = false;
+
+  const balletCreditCard = document.getElementById('balletCreditCard');
+  const flipBalletCardBtn = document.getElementById('flipBalletCardBtn');
+  const togglePassphraseBtn = document.getElementById('togglePassphraseBtn');
+  const copyWalletBtn = document.getElementById('copyWalletBtn');
+
+  // Flip card
+  if (flipBalletCardBtn && balletCreditCard) {
+    flipBalletCardBtn.addEventListener('click', () => {
+      isBalletCardFlipped = !isBalletCardFlipped;
+      balletCreditCard.style.transform = isBalletCardFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+      balletCreditCard.classList.toggle('flipped', isBalletCardFlipped);
+    });
+  }
+
+  // Show/hide passphrase
+  if (togglePassphraseBtn) {
+    togglePassphraseBtn.addEventListener('click', () => {
+      const masked = document.getElementById('maskedPassphrase');
+      const full   = document.getElementById('fullPassphrase');
+      const txt    = document.getElementById('togglePassphraseText');
+      if (!masked || !full || !txt) return;
+
+      isPassphraseVisible = !isPassphraseVisible;
+      masked.classList.toggle('hidden', isPassphraseVisible);
+      full.classList.toggle('hidden', !isPassphraseVisible);
+      txt.textContent = isPassphraseVisible ? 'Hide Passphrase' : 'Show Passphrase';
+    });
+  }
+
+  // Copy wallet address to clipboard
+  if (copyWalletBtn) {
+    copyWalletBtn.addEventListener('click', function() {
+      const walletAddress = document.getElementById('balletWalletAddress').textContent.trim();
+      if (!walletAddress) return;
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(walletAddress).then(() => {
+          this.innerHTML = '<i class="fas fa-check mr-2"></i> Copied!';
+          this.classList.add('text-green-600');
+          setTimeout(() => {
+            this.innerHTML = '<i class="fas fa-copy mr-2"></i> Copy Wallet';
+            this.classList.remove('text-green-600');
+          }, 2000);
+        });
+      } else {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = walletAddress;
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          this.innerHTML = '<i class="fas fa-check mr-2"></i> Copied!';
+          this.classList.add('text-green-600');
+          setTimeout(() => {
+            this.innerHTML = '<i class="fas fa-copy mr-2"></i> Copy Wallet';
+            this.classList.remove('text-green-600');
+          }, 2000);
+        } catch (err) {
+          console.error('Fallback copy failed:', err);
+        }
+        document.body.removeChild(ta);
+      }
+    });
+  }
+</script>
 @endsection

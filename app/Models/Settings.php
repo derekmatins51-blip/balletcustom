@@ -12,7 +12,8 @@ class Settings extends Model
     protected $casts = [
         'return_capital' => 'boolean',
         'should_cancel_plan' => 'boolean',
-        'modules' => 'array'
+        'modules' => 'array',
+        'virtual_card_color' => 'string', // New field for dynamic card color
     ];
 
     // public function getModulesAttribute($value)

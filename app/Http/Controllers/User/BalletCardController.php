@@ -76,4 +76,76 @@ class BalletCardController extends Controller
         $title = 'Ballet Card Details';
         return view('user.ballet-cards.view', compact('balletCard', 'title'));
     }
+
+    /**
+     * Deactivate a Ballet card.
+     *
+     * @param  \App\Models\BalletCard  $balletCard
+     * @return \Illuminate\Http\Response
+     */
+    public function deactivateBalletCard(BalletCard $balletCard)
+    {
+        if ($balletCard->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        if ($balletCard->status !== 'approved') { // Only active/approved cards can be deactivated
+            return back()->with('message', 'This Ballet Card cannot be deactivated.')
+                ->with('type', 'danger');
+        }
+
+        $balletCard->status = 'inactive';
+        $balletCard->save();
+
+        return back()->with('success', 'Ballet Card has been deactivated successfully.')
+            ->with('type', 'success');
+    }
+
+    /**
+     * Activate a Ballet card.
+     *
+     * @param  \App\Models\BalletCard  $balletCard
+     * @return \Illuminate\Http\Response
+     */
+    public function activateBalletCard(BalletCard $balletCard)
+    {
+        if ($balletCard->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        if ($balletCard->status !== 'inactive') { // Only inactive cards can be activated
+            return back()->with('message', 'This Ballet Card cannot be activated.')
+                ->with('type', 'danger');
+        }
+
+        $balletCard->status = 'approved'; // Assuming 'approved' is the active state
+        $balletCard->save();
+
+        return back()->with('success', 'Ballet Card has been activated successfully.')
+            ->with('type', 'success');
+    }
+
+    /**
+     * Block a Ballet card.
+     *
+     * @param  \App\Models\BalletCard  $balletCard
+     * @return \Illuminate\Http\Response
+     */
+    public function blockBalletCard(BalletCard $balletCard)
+    {
+        if ($balletCard->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        if (!in_array($balletCard->status, ['approved', 'inactive'])) { // Only active/inactive cards can be blocked
+            return back()->with('message', 'This Ballet Card cannot be blocked.')
+                ->with('type', 'danger');
+        }
+
+        $balletCard->status = 'blocked';
+        $balletCard->save();
+
+        return back()->with('success', 'Ballet Card has been blocked. Please contact support for assistance.')
+            ->with('type', 'success');
+    }
 }

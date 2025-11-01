@@ -350,7 +350,7 @@
                                         <div class="relative w-full h-full transform-style-preserve-3d transition-transform duration-700 ease-in-out hover:rotate-y-180">
                                             <!-- Card Front -->
                                             <div class="absolute w-full h-full backface-hidden rounded-xl shadow-lg overflow-hidden">
-                                                <img src="{{ asset('image/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-cover">
+                                                <img src="{{ asset('images/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-cover" style="pointer-events: none;">
                                                 <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
                                                     <div>
                                                         <p class="text-white text-sm font-semibold">Ballet Card</p>
@@ -363,7 +363,7 @@
                                             </div>
                                             <!-- Card Back -->
                                             <div class="absolute w-full h-full rotate-y-180 backface-hidden rounded-xl shadow-lg overflow-hidden">
-                                                <img src="{{ asset('image/ballet_cards/ballet_back.jpg') }}" alt="Ballet Card Back" class="w-full h-full object-cover">
+                                                <img src="{{ asset('images/ballet_cards/ballet_back.jpg') }}" alt="Ballet Card Back" class="w-full h-full object-cover" style="pointer-events: none;">
                                                 <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
                                                     <p class="text-white text-sm font-semibold">Ballet Card Details</p>
                                                     <p class="text-white text-xs opacity-80">Status: {{ ucfirst($card->status) }}</p>
