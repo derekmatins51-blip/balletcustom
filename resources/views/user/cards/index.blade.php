@@ -451,5 +451,17 @@
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
 }
+
+/* Ensure front face is visible by default */
+.ballet-card-flipper-{{ $card->id }} .absolute:first-child {
+    transform: rotateY(0deg);
+    -webkit-transform: rotateY(0deg);
+}
+
+/* Ensure back face is hidden by default */
+.ballet-card-flipper-{{ $card->id }} .absolute:last-child {
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+}
 </style>
 @endpush
