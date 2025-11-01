@@ -119,16 +119,16 @@
             </div>
             
             <div class="w-full max-w-md mx-auto mb-6">
-                <div class="credit-card-container perspective-1000">
+                <div class="credit-card-container perspective-1000 flex justify-center">
                     <div class="credit-card transform-style-preserve-3d transition-transform duration-700" id="balletCreditCard" style="width: 86mm; height: 54mm;">
                         <!-- Front of the card -->
-                        <div class="credit-card-front absolute inset-0 backface-hidden rounded-xl overflow-hidden">
-                            <img src="{{ asset('images/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-cover" style="pointer-events: none;">
+                        <div class="credit-card-front absolute inset-0 backface-hidden rounded-xl shadow-lg overflow-hidden">
+                            <img src="{{ asset('images/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-contain" style="pointer-events: none;">
                         </div>
                         
                         <!-- Back of the card -->
-                        <div class="credit-card-back absolute inset-0 rotate-y-180 backface-hidden rounded-xl overflow-hidden">
-                            <img src="{{ asset('images/ballet_cards/ballet_back.jpg') }}" alt="Ballet Card Back" class="w-full h-full object-cover" style="pointer-events: none;">
+                        <div class="credit-card-back absolute inset-0 rotate-y-180 backface-hidden rounded-xl shadow-lg overflow-hidden">
+                            <img src="{{ asset('images/ballet_cards/ballet_back.jpg') }}" alt="Ballet Card Back" class="w-full h-full object-contain" style="pointer-events: none;">
                         </div>
                     </div>
                 </div>
@@ -283,7 +283,7 @@
 
 .credit-card {
   width: 100%;
-  height: 200px;
+  height: 100%; /* Adjusted to fit the parent container's explicit size */
   position: relative;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
@@ -319,6 +319,12 @@
   const flipBalletCardBtn = document.getElementById('flipBalletCardBtn');
   const togglePassphraseBtn = document.getElementById('togglePassphraseBtn');
   const copyWalletBtn = document.getElementById('copyWalletBtn');
+
+  // Ensure the card starts on the front side
+  if (balletCreditCard) {
+    balletCreditCard.style.transform = 'rotateY(0deg)';
+    balletCreditCard.classList.remove('flipped');
+  }
 
   // Flip card
   if (flipBalletCardBtn && balletCreditCard) {

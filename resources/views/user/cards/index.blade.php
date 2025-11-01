@@ -345,16 +345,17 @@
                                 </div>
                                 
                                 <!-- Card Representation -->
+                                <!-- Card Representation -->
                                 <div class="px-4 py-3">
-                                    <div class="relative w-[86mm] h-[54mm] overflow-hidden rounded-xl perspective-1000 mx-auto">
+                                    <div class="relative w-full max-w-[86mm] aspect-[86/54] overflow-hidden rounded-xl perspective-1000 mx-auto">
                                         <div class="relative w-full h-full transform-style-preserve-3d transition-transform duration-700 ease-in-out ballet-card-flipper-{{ $card->id }}">
                                             <!-- Card Front -->
-                                            <div class="absolute w-full h-full backface-hidden rounded-xl shadow-lg overflow-hidden">
-                                                <img src="{{ asset('images/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-cover" style="pointer-events: none;">
+                                            <div class="absolute inset-0 backface-hidden rounded-xl shadow-lg overflow-hidden">
+                                                <img src="{{ asset('images/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-contain" style="pointer-events: none;">
                                             </div>
                                             <!-- Card Back -->
-                                            <div class="absolute w-full h-full rotate-y-180 backface-hidden rounded-xl shadow-lg overflow-hidden">
-                                                <img src="{{ asset('images/ballet_cards/ballet_back.jpg') }}" alt="Ballet Card Back" class="w-full h-full object-cover" style="pointer-events: none;">
+                                            <div class="absolute inset-0 rotate-y-180 backface-hidden rounded-xl shadow-lg overflow-hidden">
+                                                <img src="{{ asset('images/ballet_cards/ballet_back.jpg') }}" alt="Ballet Card Back" class="w-full h-full object-contain" style="pointer-events: none;">
                                             </div>
                                         </div>
                                     </div>
