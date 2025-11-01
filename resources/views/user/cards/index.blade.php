@@ -443,8 +443,8 @@
   position: relative;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-  transition: transform 0.7s;
-  -webkit-transition: -webkit-transform 0.7s;
+  transition: transform 0.7s; /* Re-enable transition */
+  -webkit-transition: -webkit-transform 0.7s; /* Re-enable transition */
 }
 
 .ballet-card-flipper.flipped {
@@ -454,14 +454,21 @@
 
 /* Ensure front face is visible by default */
 .ballet-card-flipper .absolute:first-child {
-    transform: rotateY(0deg);
-    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg) !important;
+    -webkit-transform: rotateY(0deg) !important;
 }
 
 /* Ensure back face is hidden by default */
 .ballet-card-flipper .absolute:last-child {
-    transform: rotateY(180deg);
-    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg) !important;
+    -webkit-transform: rotateY(180deg) !important;
 }
+
+/* The initial state should be handled by the default transform on the front/back faces */
+/* .ballet-card-flipper.flipped,
+.ballet-card-flipper:not(.flipped) {
+  transition: transform 0.7s;
+  -webkit-transition: -webkit-transform 0.7s;
+} */
 </style>
 @endpush
