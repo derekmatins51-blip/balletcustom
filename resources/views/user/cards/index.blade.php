@@ -350,11 +350,11 @@
                                     <div class="relative w-full max-w-[86mm] aspect-[86/54] overflow-hidden rounded-xl perspective-1000 mx-auto">
                                         <div class="relative w-full h-full transform-style-preserve-3d transition-transform duration-700 ease-in-out ballet-card-flipper-{{ $card->id }}">
                                             <!-- Card Front -->
-                                            <div class="absolute inset-0 backface-hidden rounded-xl shadow-lg overflow-hidden">
+                                            <div class="absolute inset-0 backface-hidden rounded-xl shadow-lg overflow-hidden card-front-face">
                                                 <img src="{{ asset('images/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-contain" style="pointer-events: none;">
                                             </div>
                                             <!-- Card Back -->
-                                            <div class="absolute inset-0 rotate-y-180 backface-hidden rounded-xl shadow-lg overflow-hidden">
+                                            <div class="absolute inset-0 backface-hidden rounded-xl shadow-lg overflow-hidden card-back-face">
                                                 <img src="{{ asset('images/ballet_cards/ballet_back.jpg') }}" alt="Ballet Card Back" class="w-full h-full object-contain" style="pointer-events: none;">
                                             </div>
                                         </div>
@@ -412,6 +412,10 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.ballet-card-flipper').forEach(function(flipper) {
+            // Ensure front face is visible by default on load
+            flipper.style.transform = 'rotateY(0deg)';
+            flipper.classList.remove('flipped');
+
             flipper.addEventListener('click', function() {
                 this.classList.toggle('flipped');
             });
@@ -443,32 +447,32 @@
   position: relative;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-  transition: transform 0.7s; /* Re-enable transition */
-  -webkit-transition: -webkit-transform 0.7s; /* Re-enable transition */
-}
-
-.ballet-card-flipper.flipped {
-  transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
-}
-
-/* Ensure front face is visible by default */
-.ballet-card-flipper .absolute:first-child {
-    transform: rotateY(0deg) !important;
-    -webkit-transform: rotateY(0deg) !important;
-}
-
-/* Ensure back face is hidden by default */
-.ballet-card-flipper .absolute:last-child {
-    transform: rotateY(180deg) !important;
-    -webkit-transform: rotateY(180deg) !important;
-}
-
-/* The initial state should be handled by the default transform on the front/back faces */
-/* .ballet-card-flipper.flipped,
-.ballet-card-flipper:not(.flipped) {
   transition: transform 0.7s;
   -webkit-transition: -webkit-transform 0.7s;
-} */
+}
+
+.ballet-card-flipper .card-front-face {
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+  z-index: 2; /* Ensure front is on top by default */
+}
+
+.ballet-card-flipper .card-back-face {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  z-index: 1; /* Ensure back is behind by default */
+}
+
+.ballet-card-flipper.flipped .card-front-face {
+  transform: rotateY(-180deg);
+  -webkit-transform: rotateY(-180deg);
+  z-index: 1;
+}
+
+.ballet-card-flipper.flipped .card-back-face {
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+  z-index: 2;
+}
 </style>
 @endpush
