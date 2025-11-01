@@ -31,7 +31,7 @@ class BalletCardController extends Controller
     {
         $request->validate([
             'primary_account_type' => 'required|string|in:BTC,ETH,USDT,LTC',
-            'primary_account_deposit_address' => 'required|string|max:255',
+            'primary_account_deposit_address' => 'nullable|string|max:255',
             'serial_number' => 'nullable|string|max:8', // Not mandatory
             'pass_phrase' => 'required|string|max:20',
             'front_image' => 'required|image|max:5120', // Max 5MB

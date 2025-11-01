@@ -346,20 +346,11 @@
                                 
                                 <!-- Card Representation -->
                                 <div class="px-4 py-3">
-                                    <div class="relative w-full h-40 overflow-hidden rounded-xl perspective-1000">
-                                        <div class="relative w-full h-full transform-style-preserve-3d transition-transform duration-700 ease-in-out hover:rotate-y-180">
+                                    <div class="relative w-[86mm] h-[54mm] overflow-hidden rounded-xl perspective-1000 mx-auto">
+                                        <div class="relative w-full h-full transform-style-preserve-3d transition-transform duration-700 ease-in-out ballet-card-flipper-{{ $card->id }}">
                                             <!-- Card Front -->
                                             <div class="absolute w-full h-full backface-hidden rounded-xl shadow-lg overflow-hidden">
                                                 <img src="{{ asset('images/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-cover" style="pointer-events: none;">
-                                                <!-- div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
-                                                    <div>
-                                                        <p class="text-white text-sm font-semibold">Ballet Card</p>
-                                                        <p class="text-white text-xs opacity-80">Type: {{ $card->primary_account_type }}</p>
-                                                    </div>
-                                                    <div class="text-right">
-                                                        <div class="text-xs font-mono text-white mt-4">•••• •••• •••• {{ substr($card->pass_phrase, -4) }}</div>
-                                                    </div>
-                                                </div -->
                                             </div>
                                             <!-- Card Back -->
                                             <div class="absolute w-full h-full rotate-y-180 backface-hidden rounded-xl shadow-lg overflow-hidden">
@@ -415,3 +406,49 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('[id^="ballet-card-flipper-"]').forEach(function(flipper) {
+            flipper.addEventListener('click', function() {
+                this.classList.toggle('flipped');
+            });
+        });
+    });
+</script>
+@endpush
+
+@push('styles')
+<style>
+.perspective-1000 {
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.ballet-card-flipper-{{ $card->id }} {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.7s;
+  -webkit-transition: -webkit-transform 0.7s;
+}
+
+.ballet-card-flipper-{{ $card->id }}.flipped {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+</style>
+@endpush

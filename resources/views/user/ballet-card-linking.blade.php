@@ -281,6 +281,39 @@
 
             </div>
         </div>
+        
+        <!-- Info Cards (Footer from apply.blade.php) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
+            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-4">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-white text-sm"></i>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Secure</h3>
+                </div>
+                <p class="text-xs text-gray-600 dark:text-gray-400">Bank-level security with real-time fraud monitoring and instant notifications.</p>
+            </div>
+            
+            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-4">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center">
+                        <i class="fas fa-bolt text-white text-sm"></i>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Instant</h3>
+                </div>
+                <p class="text-xs text-gray-600 dark:text-gray-400">Get your Ballet card linked instantly after verification.</p>
+            </div>
+            
+            <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 p-4">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center">
+                        <i class="fas fa-sliders-h text-white text-sm"></i>
+                    </div>
+                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Control</h3>
+                </div>
+                <p class="text-xs text-gray-600 dark:text-gray-400">Set spending limits, freeze cards instantly, and monitor all transactions in real-time.</p>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

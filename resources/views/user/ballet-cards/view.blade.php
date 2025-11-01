@@ -120,7 +120,7 @@
             
             <div class="w-full max-w-md mx-auto mb-6">
                 <div class="credit-card-container perspective-1000">
-                    <div class="credit-card transform-style-preserve-3d transition-transform duration-700" id="balletCreditCard">
+                    <div class="credit-card transform-style-preserve-3d transition-transform duration-700" id="balletCreditCard" style="width: 86mm; height: 54mm;">
                         <!-- Front of the card -->
                         <div class="credit-card-front absolute inset-0 backface-hidden rounded-xl overflow-hidden">
                             <img src="{{ asset('images/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-cover" style="pointer-events: none;">
