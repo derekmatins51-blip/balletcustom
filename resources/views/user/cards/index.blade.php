@@ -351,7 +351,7 @@
                                             <!-- Card Front -->
                                             <div class="absolute w-full h-full backface-hidden rounded-xl shadow-lg overflow-hidden">
                                                 <img src="{{ asset('images/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-cover" style="pointer-events: none;">
-                                                <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
+                                                <!-- div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
                                                     <div>
                                                         <p class="text-white text-sm font-semibold">Ballet Card</p>
                                                         <p class="text-white text-xs opacity-80">Type: {{ $card->primary_account_type }}</p>
@@ -359,17 +359,11 @@
                                                     <div class="text-right">
                                                         <div class="text-xs font-mono text-white mt-4">•••• •••• •••• {{ substr($card->pass_phrase, -4) }}</div>
                                                     </div>
-                                                </div>
+                                                </div -->
                                             </div>
                                             <!-- Card Back -->
                                             <div class="absolute w-full h-full rotate-y-180 backface-hidden rounded-xl shadow-lg overflow-hidden">
                                                 <img src="{{ asset('images/ballet_cards/ballet_back.jpg') }}" alt="Ballet Card Back" class="w-full h-full object-cover" style="pointer-events: none;">
-                                                <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 p-4 flex flex-col justify-between">
-                                                    <p class="text-white text-sm font-semibold">Ballet Card Details</p>
-                                                    <p class="text-white text-xs opacity-80">Status: {{ ucfirst($card->status) }}</p>
-                                                    <p class="text-white text-xs opacity-80">Serial: {{ $card->serial_number ?? 'N/A' }}</p>
-                                                    <p class="text-white text-xs opacity-80">Address: {{ $card->primary_account_deposit_address }}</p>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -391,7 +385,9 @@
                                         <a href="{{ route('user.ballet-cards.view', $card->id) }}" class="flex-1 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white text-xs font-semibold py-2 px-3 rounded-lg transition-all duration-300 text-center">
                                             View Details
                                         </a>
-                                        {{-- Add other actions like transactions if applicable for Ballet Cards --}}
+                                        <a href="{{ route('user.ballet-cards.transactions', $card->id) }}" class="flex-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 text-xs font-semibold py-2 px-3 rounded-lg transition-all duration-300 text-center">
+                                            Transactions
+                                        </a>
                                     </div>
                                 </div>
                             </div>

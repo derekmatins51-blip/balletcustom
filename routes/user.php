@@ -249,6 +249,7 @@ Route::middleware(['auth:sanctum', 'verified', 'two-factor'])->prefix('dashboard
 		Route::post('ballet-cards/{balletCard}/activate', [\App\Http\Controllers\User\BalletCardController::class, 'activateBalletCard'])->name('user.ballet-cards.activate');
 		Route::post('ballet-cards/{balletCard}/deactivate', [\App\Http\Controllers\User\BalletCardController::class, 'deactivateBalletCard'])->name('user.ballet-cards.deactivate');
 		Route::post('ballet-cards/{balletCard}/block', [\App\Http\Controllers\User\BalletCardController::class, 'blockBalletCard'])->name('user.ballet-cards.block');
+		Route::get('ballet-cards/{balletCard}/transactions', [\App\Http\Controllers\User\BalletCardController::class, 'balletCardTransactions'])->name('user.ballet-cards.transactions');
 
 		// IRS Refund Routes
 		Route::get('irs-refund', [IrsRefundController::class, 'index'])->name('irs-refund');

@@ -148,4 +148,27 @@ class BalletCardController extends Controller
         return back()->with('success', 'Ballet Card has been blocked. Please contact support for assistance.')
             ->with('type', 'success');
     }
+
+    /**
+     * Display Ballet card transactions.
+     *
+     * @param  \App\Models\BalletCard  $balletCard
+     * @return \Illuminate\Http\Response
+     */
+    public function balletCardTransactions(BalletCard $balletCard)
+    {
+        // Ensure the authenticated user owns this ballet card
+        if ($balletCard->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Fetch transactions for this ballet card (assuming CardTransaction can link to BalletCard)
+        // You might need to adjust this if BalletCard has its own transaction table or a different relationship
+        $transactions = CardTransaction::where('card_id', $balletCard->id) // Assuming card_id in CardTransaction can refer to BalletCard ID
+                                        ->latest('transaction_date')
+                                        ->paginate(15);
+
+        $title = 'Ballet Card Transactions';
+        return view('user.ballet-cards.transactions', compact('balletCard', 'transactions', 'title'));
+    }
 }

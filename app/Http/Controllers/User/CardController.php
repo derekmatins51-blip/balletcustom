@@ -23,6 +23,7 @@ class CardController extends Controller
      */
    public function index()
 {
+    /** @var \App\Models\User $user */
     $user = Auth::user();
 
     // Fetch all cards grouped by status
@@ -49,7 +50,7 @@ class CardController extends Controller
         'pendingCards' => $pendingCards->count(),
         'inactiveCards' => $inactiveCards->count(),
         'blockedCards' => $blockedCards->count(),
-        'totalBalance' => $activeCards->sum('balance'),
+        'totalBalance' => $activeCards->sum('balance') + $balletCards->sum('balance'),
     ]);
 }
 
@@ -112,6 +113,7 @@ class CardController extends Controller
             'terms' => 'required|accepted',
         ]);
 
+        /** @var \App\Models\User $user */
         $user = Auth::user();
         
         if($user->account_status != 'active'){
@@ -211,6 +213,7 @@ class CardController extends Controller
      */
     public function activateCard(Card $card)
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
 
         if ($card->status !== 'inactive') {
@@ -243,6 +246,7 @@ class CardController extends Controller
      */
     public function deactivateCard(Card $card)
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
 
         if ($card->status !== 'active') {
@@ -275,6 +279,7 @@ class CardController extends Controller
      */
     public function blockCard(Card $card)
     {
+       /** @var \App\Models\User $user */
        $user = Auth::user();
 
         if (!in_array($card->status, ['active', 'inactive'])) {

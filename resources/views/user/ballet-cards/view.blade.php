@@ -122,85 +122,13 @@
                 <div class="credit-card-container perspective-1000">
                     <div class="credit-card transform-style-preserve-3d transition-transform duration-700" id="balletCreditCard">
                         <!-- Front of the card -->
-                        <div class="credit-card-front absolute inset-0 flex flex-col justify-between p-6 backface-hidden rounded-xl">
-                            <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 rounded-xl"></div>
-                            
-                            <!-- Card decorative elements -->
-                            <div class="absolute inset-0 overflow-hidden rounded-xl">
-                                <div class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-20 translate-x-20"></div>
-                                <div class="absolute bottom-0 left-0 w-60 h-60 bg-white/5 rounded-full translate-y-20 -translate-x-20"></div>
-                                <div class="absolute inset-0 backdrop-blur-sm bg-gradient-to-b from-transparent to-black/20"></div>
-                            </div>
-                            
-                            <!-- Card Type Logo -->
-                            <div class="relative flex justify-between items-start">
-                                <div>
-                                    <div class="text-white font-semibold text-lg tracking-wider">Ballet Card</div>
-                                    <div class="text-white/70 text-xs">Type: {{ $balletCard->primary_account_type }}</div>
-                                </div>
-                                
-                                <div>
-                                    <i class="fas fa-link text-white text-2xl"></i>
-                                </div>
-                            </div>
-                            
-                            <!-- Smart Chip (Optional for Ballet Card) -->
-                            <div class="relative mt-2">
-                                <div class="w-12 h-10 rounded-md bg-gradient-to-br from-yellow-500 to-yellow-400 flex items-center justify-center overflow-hidden shadow-inner">
-                                    <div class="w-full h-full grid grid-cols-2 grid-rows-3 gap-px p-1">
-                                        <div class="bg-yellow-600/60 rounded-sm"></div>
-                                        <div class="bg-yellow-600/60 rounded-sm"></div>
-                                        <div class="bg-yellow-600/60 rounded-sm"></div>
-                                        <div class="bg-yellow-600/60 rounded-sm"></div>
-                                        <div class="bg-yellow-600/60 rounded-sm"></div>
-                                        <div class="bg-yellow-600/60 rounded-sm"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Passphrase -->
-                            <div class="relative mt-2">
-                                <div class="font-mono text-xl text-white tracking-widest drop-shadow-md">
-                                    <span id="maskedPassphrase">•••• •••• •••• {{ substr($balletCard->pass_phrase, -4) }}</span>
-                                    <span id="fullPassphrase" class="hidden">{{ chunk_split($balletCard->pass_phrase, 4, ' ') }}</span>
-                                </div>
-                            </div>
-                            
-                            <!-- Account Address -->
-                            <div class="relative mt-auto">
-                                <div class="text-xs uppercase text-white/70 mb-1">Deposit Address</div>
-                                <div class="text-white font-medium text-sm truncate max-w-[150px]" id="balletWalletAddress">
-                                    {{ $balletCard->primary_account_deposit_address }}
-                                </div>
-                            </div>
+                        <div class="credit-card-front absolute inset-0 backface-hidden rounded-xl overflow-hidden">
+                            <img src="{{ asset('images/ballet_cards/ballet_front.jpg') }}" alt="Ballet Card Front" class="w-full h-full object-cover" style="pointer-events: none;">
                         </div>
                         
                         <!-- Back of the card -->
-                        <div class="credit-card-back absolute inset-0 flex flex-col justify-between p-6 backface-hidden rotate-y-180 rounded-xl">
-                            <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 to-gray-700/70 rounded-xl"></div>
-                            
-                            <!-- Magnetic Stripe -->
-                            <div class="relative mt-4">
-                                <div class="w-full h-12 bg-black rounded-sm"></div>
-                            </div>
-                            
-                            <!-- Serial Number -->
-                            <div class="relative mt-4">
-                                <div class="bg-white/90 rounded p-2 text-right">
-                                    <div class="text-xs text-gray-600 mb-1">Serial Number</div>
-                                    <div class="font-mono text-sm text-gray-900">
-                                        {{ $balletCard->serial_number ?? 'N/A' }}
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Ballet Card Info -->
-                            <div class="relative mt-auto">
-                                <div class="text-white/70 text-xs">
-                                    <p>Ballet Card</p>
-                                    <p>Status: {{ ucfirst($balletCard->status) }}</p>
-                                </div>
-                            </div>
+                        <div class="credit-card-back absolute inset-0 rotate-y-180 backface-hidden rounded-xl overflow-hidden">
+                            <img src="{{ asset('images/ballet_cards/ballet_back.jpg') }}" alt="Ballet Card Back" class="w-full h-full object-cover" style="pointer-events: none;">
                         </div>
                     </div>
                 </div>
@@ -279,8 +207,7 @@
             </div>
         </div>
 
-        {{-- Recent Transactions (if applicable for Ballet Cards) --}}
-        {{-- @if(isset($recentTransactions) && count($recentTransactions) > 0)
+        @if(isset($recentTransactions) && count($recentTransactions) > 0)
             <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
                 <div class="flex items-center justify-between p-4 border-b border-gray-200/50 dark:border-gray-700/50">
                     <div class="flex items-center space-x-2">
@@ -333,7 +260,7 @@
                     @endforeach
                 </div>
             </div>
-        @endif --}}
+        @endif
 
     </div>
 </div>
